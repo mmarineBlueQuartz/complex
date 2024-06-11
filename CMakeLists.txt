@@ -182,6 +182,9 @@ find_package(span-lite CONFIG REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(boost_mp11 CONFIG REQUIRED)
 find_package(nod CONFIG REQUIRED)
+find_package(xtl CONFIG REQUIRED)
+find_package(xtensor CONFIG REQUIRED)
+find_package(xtensor-io CONFIG REQUIRED)
 
 # -----------------------------------------------------------------------
 # Find HDF5 and get the path to the DLL libraries and put that into a
@@ -251,14 +254,17 @@ endif()
 
 target_link_libraries(simplnx
   PUBLIC
-    fmt::fmt
-    nlohmann_json::nlohmann_json
-    nonstd::expected-lite
-    nonstd::span-lite
-    Eigen3::Eigen
-    HDF5::HDF5
-    Boost::mp11
-    nod::nod
+  fmt::fmt
+  nlohmann_json::nlohmann_json
+  nonstd::expected-lite
+  nonstd::span-lite
+  Eigen3::Eigen
+  HDF5::HDF5
+  Boost::mp11
+  nod::nod
+  xtl
+  xtensor
+  xtensor-io
 )
 
 if(UNIX)
@@ -434,6 +440,8 @@ set(SIMPLNX_HDRS
   ${SIMPLNX_SOURCE_DIR}/DataStructure/Montage/GridTileIndex.hpp
 
   ${SIMPLNX_SOURCE_DIR}/DataStructure/AbstractDataStore.hpp
+  ${SIMPLNX_SOURCE_DIR}/DataStructure/AbstractListStore.hpp
+  ${SIMPLNX_SOURCE_DIR}/DataStructure/AbstractStringStore.hpp
   ${SIMPLNX_SOURCE_DIR}/DataStructure/AttributeMatrix.hpp
   ${SIMPLNX_SOURCE_DIR}/DataStructure/BaseGroup.hpp
   ${SIMPLNX_SOURCE_DIR}/DataStructure/DataArray.hpp
@@ -452,8 +460,10 @@ set(SIMPLNX_HDRS
   ${SIMPLNX_SOURCE_DIR}/DataStructure/LinkedPath.hpp
   ${SIMPLNX_SOURCE_DIR}/DataStructure/Metadata.hpp
   ${SIMPLNX_SOURCE_DIR}/DataStructure/NeighborList.hpp
+  ${SIMPLNX_SOURCE_DIR}/DataStructure/ListStore.hpp
   ${SIMPLNX_SOURCE_DIR}/DataStructure/ScalarData.hpp
   ${SIMPLNX_SOURCE_DIR}/DataStructure/StringArray.hpp
+  ${SIMPLNX_SOURCE_DIR}/DataStructure/StringStore.hpp
 
   ${SIMPLNX_SOURCE_DIR}/Filter/AbstractParameter.hpp
   ${SIMPLNX_SOURCE_DIR}/Filter/AnyCloneable.hpp
@@ -657,6 +667,7 @@ set(SIMPLNX_SRCS
   ${SIMPLNX_SOURCE_DIR}/DataStructure/Montage/GridMontage.cpp
   ${SIMPLNX_SOURCE_DIR}/DataStructure/Montage/GridTileIndex.cpp
 
+  ${SIMPLNX_SOURCE_DIR}/DataStructure/AbstractStringStore.cpp
   ${SIMPLNX_SOURCE_DIR}/DataStructure/AttributeMatrix.cpp
   ${SIMPLNX_SOURCE_DIR}/DataStructure/BaseGroup.cpp
   ${SIMPLNX_SOURCE_DIR}/DataStructure/DataGroup.cpp
@@ -669,6 +680,7 @@ set(SIMPLNX_SRCS
   ${SIMPLNX_SOURCE_DIR}/DataStructure/Metadata.cpp
   ${SIMPLNX_SOURCE_DIR}/DataStructure/NeighborList.cpp
   ${SIMPLNX_SOURCE_DIR}/DataStructure/StringArray.cpp
+  ${SIMPLNX_SOURCE_DIR}/DataStructure/StringStore.cpp
 
   ${SIMPLNX_SOURCE_DIR}/Filter/AbstractParameter.cpp
   ${SIMPLNX_SOURCE_DIR}/Filter/Arguments.cpp
