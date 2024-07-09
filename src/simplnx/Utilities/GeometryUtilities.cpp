@@ -11,7 +11,7 @@ constexpr float32 k_PartitionEdgePadding = 0.000001;
 const Point3Df k_Padding(k_PartitionEdgePadding, k_PartitionEdgePadding, k_PartitionEdgePadding);
 } // namespace
 
-GeometryUtilities::FindUniqueIdsImpl::FindUniqueIdsImpl(nx::core::IGeometry::SharedVertexList& vertex, const std::vector<std::vector<size_t>>& nodesInBin, nx::core::Int64DataStore& uniqueIds)
+GeometryUtilities::FindUniqueIdsImpl::FindUniqueIdsImpl(nx::core::IGeometry::SharedVertexList& vertex, const std::vector<std::vector<size_t>>& nodesInBin, nx::core::Int64AbstractDataStore& uniqueIds)
 : m_Vertex(vertex)
 , m_NodesInBin(nodesInBin)
 , m_UniqueIds(uniqueIds)
@@ -21,22 +21,21 @@ GeometryUtilities::FindUniqueIdsImpl::FindUniqueIdsImpl(nx::core::IGeometry::Sha
 // -----------------------------------------------------------------------------
 void GeometryUtilities::FindUniqueIdsImpl::convert(size_t start, size_t end) const
 {
-  auto& vertexDataStore = m_Vertex.getIDataStoreRefAs<DataStore<float32>>();
-  const float32* verticesPtr = vertexDataStore.data();
-  int64* uniqueIdsPtr = m_UniqueIds.data();
+  auto& vertexDataStore = m_Vertex.getDataStoreRef();
   for(size_t i = start; i < end; i++)
   {
     for(size_t j = 0; j < m_NodesInBin[i].size(); j++)
     {
       size_t node1 = m_NodesInBin[i][j];
-      if(uniqueIdsPtr[node1] == static_cast<int64_t>(node1))
+      if(m_UniqueIds[node1] == static_cast<int64_t>(node1))
       {
         for(size_t k = j + 1; k < m_NodesInBin[i].size(); k++)
         {
           size_t node2 = m_NodesInBin[i][k];
-          if(verticesPtr[node1 * 3] == verticesPtr[node2 * 3] && verticesPtr[node1 * 3 + 1] == verticesPtr[node2 * 3 + 1] && verticesPtr[node1 * 3 + 2] == verticesPtr[node2 * 3 + 2])
+          if(vertexDataStore[node1 * 3] == vertexDataStore[node2 * 3] && vertexDataStore[node1 * 3 + 1] == vertexDataStore[node2 * 3 + 1] &&
+             vertexDataStore[node1 * 3 + 2] == vertexDataStore[node2 * 3 + 2])
           {
-            uniqueIdsPtr[node2] = node1;
+            m_UniqueIds[node2] = node1;
           }
         }
       }
