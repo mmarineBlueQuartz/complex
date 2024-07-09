@@ -1556,7 +1556,7 @@ void RunParallelMapRectToImage(IArray& destArray, ParallelRunnerT&& runner, Args
 
 } // namespace CopyFromArray
 
-<<<<<<< HEAD
+
 namespace TransferGeometryElementData
 {
 
@@ -1638,7 +1638,7 @@ void createDataArrayActions(const DataStructure& dataStructure, const AttributeM
 }
 
 } // namespace TransferGeometryElementData
-=======
+
 namespace Indexing
 {
 /**
@@ -1694,5 +1694,4 @@ inline std::vector<uint64> FindPosition(uint64_t index, const std::vector<uint64
 }
 } // namespace Indexing
 
->>>>>>> 7a82686f (Fix Out-of-Core errors)
 } // namespace nx::core
