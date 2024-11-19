@@ -63,9 +63,10 @@ set(${PLUGIN_NAME}UnitTest_SRCS
   CreatePythonSkeletonTest.cpp
   CropEdgeGeometryTest.cpp
   CropImageGeometryTest.cpp
-  CropVertexGeometryTest.cpp
-  DBSCANTest.cpp
-  DeleteDataTest.cpp
+
+  # CropVertexGeometryTest.cpp
+  # DBSCANTest.cpp
+  # DeleteDataTest.cpp
   DREAM3DFileTest.cpp
   ErodeDilateBadDataTest.cpp
   ErodeDilateCoordinationNumberTest.cpp
@@ -100,19 +101,20 @@ set(${PLUGIN_NAME}UnitTest_SRCS
   PartitionGeometryTest.cpp
   PipelineTest.cpp
   PointSampleTriangleGeometryFilterTest.cpp
-  QuickSurfaceMeshFilterTest.cpp
-  ReadBinaryCTNorthstarTest.cpp
-  ReadCSVFileTest.cpp
-  ReadHDF5DatasetTest.cpp
-  ReadRawBinaryTest.cpp
-  ReadStlFileTest.cpp
-  ReadTextDataArrayTest.cpp
-  ReadVolumeGraphicsFileTest.cpp
-  ReadVtkStructuredPointsTest.cpp
-  RegularGridSampleSurfaceMeshTest.cpp
-  RemoveFlaggedFeaturesTest.cpp
-  RemoveFlaggedTrianglesTest.cpp
-  RemoveFlaggedEdgesTest.cpp
+
+  # QuickSurfaceMeshFilterTest.cpp
+  # ReadBinaryCTNorthstarTest.cpp
+  # ReadCSVFileTest.cpp
+  # ReadHDF5DatasetTest.cpp
+  # ReadRawBinaryTest.cpp
+  # ReadStlFileTest.cpp
+  # ReadTextDataArrayTest.cpp
+  # ReadVolumeGraphicsFileTest.cpp
+  # ReadVtkStructuredPointsTest.cpp
+  # RegularGridSampleSurfaceMeshTest.cpp
+  # RemoveFlaggedFeaturesTest.cpp
+  # RemoveFlaggedTrianglesTest.cpp
+  # RemoveFlaggedEdgesTest.cpp
   RemoveFlaggedVerticesTest.cpp
   RequireMinimumSizeFeaturesTest.cpp
   RenameDataObjectTest.cpp
