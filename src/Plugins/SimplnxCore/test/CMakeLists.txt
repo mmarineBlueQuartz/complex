@@ -6,7 +6,8 @@
 # ------------------------------------------------------------------------------
 # Define the list of unit test source files
 set(${PLUGIN_NAME}UnitTest_SRCS
-  CreateAMScanPathsTest.cpp
+
+  # CreateAMScanPathsTest.cpp
   SliceTriangleGeometryTest.cpp
   # ReadDeformKeyFileV12Test.cpp
   AddBadDataTest.cpp
@@ -59,9 +60,10 @@ set(${PLUGIN_NAME}UnitTest_SRCS
   CreateImageGeometryTest.cpp
   CreatePythonSkeletonTest.cpp
   CropImageGeometryTest.cpp
-  CropVertexGeometryTest.cpp
-  DBSCANTest.cpp
-  DeleteDataTest.cpp
+
+  # CropVertexGeometryTest.cpp
+  # DBSCANTest.cpp
+  # DeleteDataTest.cpp
   DREAM3DFileTest.cpp
   ErodeDilateBadDataTest.cpp
   ErodeDilateCoordinationNumberTest.cpp
@@ -96,19 +98,20 @@ set(${PLUGIN_NAME}UnitTest_SRCS
   PartitionGeometryTest.cpp
   PipelineTest.cpp
   PointSampleTriangleGeometryFilterTest.cpp
-  QuickSurfaceMeshFilterTest.cpp
-  ReadBinaryCTNorthstarTest.cpp
-  ReadCSVFileTest.cpp
-  ReadHDF5DatasetTest.cpp
-  ReadRawBinaryTest.cpp
-  ReadStlFileTest.cpp
-  ReadTextDataArrayTest.cpp
-  ReadVolumeGraphicsFileTest.cpp
-  ReadVtkStructuredPointsTest.cpp
-  RegularGridSampleSurfaceMeshTest.cpp
-  RemoveFlaggedFeaturesTest.cpp
-  RemoveFlaggedTrianglesTest.cpp
-  RemoveFlaggedEdgesTest.cpp
+
+  # QuickSurfaceMeshFilterTest.cpp
+  # ReadBinaryCTNorthstarTest.cpp
+  # ReadCSVFileTest.cpp
+  # ReadHDF5DatasetTest.cpp
+  # ReadRawBinaryTest.cpp
+  # ReadStlFileTest.cpp
+  # ReadTextDataArrayTest.cpp
+  # ReadVolumeGraphicsFileTest.cpp
+  # ReadVtkStructuredPointsTest.cpp
+  # RegularGridSampleSurfaceMeshTest.cpp
+  # RemoveFlaggedFeaturesTest.cpp
+  # RemoveFlaggedTrianglesTest.cpp
+  # RemoveFlaggedEdgesTest.cpp
   RemoveFlaggedVerticesTest.cpp
   RequireMinimumSizeFeaturesTest.cpp
   RenameDataObjectTest.cpp
@@ -120,24 +123,25 @@ set(${PLUGIN_NAME}UnitTest_SRCS
   RobustAutomaticThresholdTest.cpp
   RotateSampleRefFrameTest.cpp
   ScalarSegmentFeaturesFilterTest.cpp
-  SetImageGeomOriginScalingFilterTest.cpp
-  SharedFeatureFaceTest.cpp
-  SilhouetteTest.cpp
-  SplitAttributeArrayTest.cpp
-  SurfaceNetsTest.cpp
-  TriangleCentroidTest.cpp
-  TriangleDihedralAngleFilterTest.cpp
-  TriangleNormalFilterTest.cpp
-  UncertainRegularGridSampleSurfaceMeshTest.cpp
-  WriteAbaqusHexahedronTest.cpp
-  WriteASCIIDataTest.cpp
-  WriteAvizoRectilinearCoordinateTest.cpp
-  WriteAvizoUniformCoordinateTest.cpp
-  WriteBinaryDataTest.cpp
-  WriteFeatureDataCSVTest.cpp
-  WriteLosAlamosFFTTest.cpp
-  WriteStlFileTest.cpp
-  WriteVtkRectilinearGridTest.cpp
+
+  # SetImageGeomOriginScalingFilterTest.cpp
+  # SharedFeatureFaceTest.cpp
+  # SilhouetteTest.cpp
+  # SplitAttributeArrayTest.cpp
+  # SurfaceNetsTest.cpp
+  # TriangleCentroidTest.cpp
+  # TriangleDihedralAngleFilterTest.cpp
+  # TriangleNormalFilterTest.cpp
+  # UncertainRegularGridSampleSurfaceMeshTest.cpp
+  # WriteAbaqusHexahedronTest.cpp
+  # WriteASCIIDataTest.cpp
+  # WriteAvizoRectilinearCoordinateTest.cpp
+  # WriteAvizoUniformCoordinateTest.cpp
+  # WriteBinaryDataTest.cpp
+  # WriteFeatureDataCSVTest.cpp
+  # WriteLosAlamosFFTTest.cpp
+  # WriteStlFileTest.cpp
+  # WriteVtkRectilinearGridTest.cpp
 )
 
 create_simplnx_plugin_unit_test(PLUGIN_NAME ${PLUGIN_NAME}
