@@ -38,7 +38,7 @@ using namespace nx::core::UnitTest;
 
 TEST_CASE("OrientationAnalysis::AlignSectionsMisorientation Small IN100 Pipeline", "[OrientationAnalysis][AlignSectionsMisorientation]")
 {
-  Application::GetOrCreateInstance()->loadPlugins(unit_test::k_BuildDir.view(), true);
+  UnitTest::LoadPlugins();
   const nx::core::UnitTest::TestFileSentinel testDataSentinel(nx::core::unit_test::k_CMakeExecutable, nx::core::unit_test::k_TestFilesDir, "6_6_align_sections_misorientation.tar.gz",
                                                               "6_6_align_sections_misorientation.dream3d");
 
@@ -53,7 +53,7 @@ TEST_CASE("OrientationAnalysis::AlignSectionsMisorientation Small IN100 Pipeline
   // would be responsible to create.
   const uint64_t millisFromEpoch = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 
-  Application::GetOrCreateInstance()->loadPlugins(unit_test::k_BuildDir.view(), true);
+  UnitTest::LoadPlugins();
   auto* filterList = Application::Instance()->getFilterList();
 
   const DataPath k_ExemplarShiftsPath = k_DataContainerPath.createChildPath("Exemplar Shifts");

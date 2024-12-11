@@ -10,6 +10,7 @@
 #include "simplnx/Pipeline/Pipeline.hpp"
 #include "simplnx/Pipeline/PipelineFilter.hpp"
 #include "simplnx/Plugin/AbstractPlugin.hpp"
+#include "simplnx/UnitTest/UnitTestCommon.hpp"
 
 #include <catch2/catch.hpp>
 
@@ -115,7 +116,7 @@ protected:
 TEST_CASE("PipelineTest:Execute Pipeline")
 {
   auto app = Application::GetOrCreateInstance();
-  app->loadPlugins(unit_test::k_BuildDir.view());
+  UnitTest::LoadPlugins();
   auto filterList = app->getFilterList();
 
   const AbstractPlugin* test1Plugin = app->getPlugin(k_Test1PluginId);
@@ -163,7 +164,7 @@ TEST_CASE("PipelineTest:Execute Pipeline")
 TEST_CASE("PipelineTest:Simplnx Pipeline")
 {
   auto app = Application::GetOrCreateInstance();
-  app->loadPlugins(unit_test::k_BuildDir.view());
+  UnitTest::LoadPlugins();
 
   auto filterList = app->getFilterList();
   REQUIRE(filterList->size() != 0);
@@ -217,7 +218,7 @@ TEST_CASE("PipelineTest:Simplnx Pipeline")
 TEST_CASE("PipelineTest:PipelineJson")
 {
   auto app = Application::GetOrCreateInstance();
-  app->loadPlugins(unit_test::k_BuildDir.view());
+  UnitTest::LoadPlugins();
 
   Pipeline pipeline("test");
 
@@ -281,7 +282,7 @@ TEST_CASE("PipelineTest:PipelineJson")
 TEST_CASE("PipelineTest:Rename Output")
 {
   auto app = Application::GetOrCreateInstance();
-  app->loadPlugins(unit_test::k_BuildDir.view());
+  UnitTest::LoadPlugins();
 
   std::string group1Name = "Foo";
   std::string group2Name = "Bar";
@@ -324,7 +325,7 @@ TEST_CASE("PipelineTest:Rename Output")
 TEST_CASE("PipelineTest:Not Renaming")
 {
   auto app = Application::GetOrCreateInstance();
-  app->loadPlugins(unit_test::k_BuildDir.view());
+  UnitTest::LoadPlugins();
 
   std::string group1Name = "Foo";
   std::string group2Name = "Bar";

@@ -52,7 +52,7 @@ DataStructure CreateDataStructure()
 
 TEST_CASE("SimplnxCore::CropImageGeometryFilter(Instantiate)", "[SimplnxCore][CropImageGeometryFilter]")
 {
-  Application::GetOrCreateInstance()->loadPlugins(unit_test::k_BuildDir.view(), true);
+  UnitTest::LoadPlugins();
 
   const std::vector<uint64> k_MinVector{0, 0, 0};
   const std::vector<uint64> k_MaxVector{0, 0, 0};
@@ -86,7 +86,7 @@ TEST_CASE("SimplnxCore::CropImageGeometryFilter(Instantiate)", "[SimplnxCore][Cr
 
 TEST_CASE("SimplnxCore::CropImageGeometryFilter Invalid Params", "[SimplnxCore][CropImageGeometryFilter]")
 {
-  Application::GetOrCreateInstance()->loadPlugins(unit_test::k_BuildDir.view(), true);
+  UnitTest::LoadPlugins();
 
   std::vector<uint64> k_MinVector{0, 0, 0};
   std::vector<uint64> k_MaxVector{500, 20, 30};
@@ -165,7 +165,7 @@ TEST_CASE("SimplnxCore::CropImageGeometryFilter Invalid Params", "[SimplnxCore][
 
 TEST_CASE("SimplnxCore::CropImageGeometryFilter(Execute_Filter)", "[SimplnxCore][CropImageGeometryFilter]")
 {
-  Application::GetOrCreateInstance()->loadPlugins(unit_test::k_BuildDir.view(), true);
+  UnitTest::LoadPlugins();
 
   const std::vector<uint64> k_MinVector{10, 15, 0};
   const std::vector<uint64> k_MaxVector{60, 40, 50};
@@ -245,7 +245,7 @@ TEST_CASE("SimplnxCore::CropImageGeometryFilter(Execute_Filter)", "[SimplnxCore]
 
 TEST_CASE("SimplnxCore::CropImageGeometryFilter(Execute_Filter) - XY", "[SimplnxCore][CropImageGeometryFilter]")
 {
-  Application::GetOrCreateInstance()->loadPlugins(unit_test::k_BuildDir.view(), true);
+  UnitTest::LoadPlugins();
 
   const std::vector<uint64> k_MinVector{10, 15, 0};
   const std::vector<uint64> k_MaxVector{60, 40, 50};
@@ -328,7 +328,7 @@ TEST_CASE("SimplnxCore::CropImageGeometryFilter(Execute_Filter) - XY", "[Simplnx
 
 TEST_CASE("SimplnxCore::CropImageGeometryFilter(Execute_Filter) - XZ", "[SimplnxCore][CropImageGeometryFilter]")
 {
-  Application::GetOrCreateInstance()->loadPlugins(unit_test::k_BuildDir.view(), true);
+  UnitTest::LoadPlugins();
 
   const std::vector<uint64> k_MinVector{10, 15, 0};
   const std::vector<uint64> k_MaxVector{60, 40, 50};
@@ -409,7 +409,7 @@ TEST_CASE("SimplnxCore::CropImageGeometryFilter(Execute_Filter) - XZ", "[Simplnx
 
 TEST_CASE("SimplnxCore::CropImageGeometryFilter(Execute_Filter) - YZ", "[SimplnxCore][CropImageGeometryFilter]")
 {
-  Application::GetOrCreateInstance()->loadPlugins(unit_test::k_BuildDir.view(), true);
+  UnitTest::LoadPlugins();
 
   const std::vector<uint64> k_MinVector{10, 15, 0};
   const std::vector<uint64> k_MaxVector{60, 40, 50};
@@ -490,7 +490,7 @@ TEST_CASE("SimplnxCore::CropImageGeometryFilter(Execute_Filter) - YZ", "[Simplnx
 
 TEST_CASE("SimplnxCore::CropImageGeometryFilter(Execute_Filter) - X", "[SimplnxCore][CropImageGeometryFilter]")
 {
-  Application::GetOrCreateInstance()->loadPlugins(unit_test::k_BuildDir.view(), true);
+  UnitTest::LoadPlugins();
 
   const std::vector<uint64> k_MinVector{10, 15, 0};
   const std::vector<uint64> k_MaxVector{60, 40, 50};
@@ -572,7 +572,7 @@ TEST_CASE("SimplnxCore::CropImageGeometryFilter(Execute_Filter) - X", "[SimplnxC
 
 TEST_CASE("SimplnxCore::CropImageGeometryFilter(Execute_Filter) - Y", "[SimplnxCore][CropImageGeometryFilter]")
 {
-  Application::GetOrCreateInstance()->loadPlugins(unit_test::k_BuildDir.view(), true);
+  UnitTest::LoadPlugins();
 
   const std::vector<uint64> k_MinVector{10, 15, 0};
   const std::vector<uint64> k_MaxVector{60, 40, 50};
@@ -654,7 +654,7 @@ TEST_CASE("SimplnxCore::CropImageGeometryFilter(Execute_Filter) - Y", "[SimplnxC
 
 TEST_CASE("SimplnxCore::CropImageGeometryFilter(Execute_Filter) - Z", "[SimplnxCore][CropImageGeometryFilter]")
 {
-  Application::GetOrCreateInstance()->loadPlugins(unit_test::k_BuildDir.view(), true);
+  UnitTest::LoadPlugins();
 
   const std::vector<uint64> k_MinVector{10, 15, 0};
   const std::vector<uint64> k_MaxVector{60, 40, 50};
@@ -736,6 +736,8 @@ TEST_CASE("SimplnxCore::CropImageGeometryFilter(Execute_Filter) - Z", "[SimplnxC
 
 TEST_CASE("SimplnxCore::CropImageGeometryFilter: Crop Physical Bounds", "[SimplnxCore][CropImageGeometryFilter]")
 {
+  UnitTest::LoadPlugins();
+
   const std::vector<float64> k_MinVector{-5, 57.5, 30};
   const std::vector<float64> k_MaxVector{20, 70, 55};
 
@@ -814,6 +816,8 @@ TEST_CASE("SimplnxCore::CropImageGeometryFilter: Crop Physical Bounds", "[Simpln
 
 TEST_CASE("SimplnxCore::CropImageGeometryFilter: Crop XY Physical Bounds", "[SimplnxCore][CropImageGeometryFilter]")
 {
+  UnitTest::LoadPlugins();
+
   const std::vector<float64> k_MinVector{-5, 57.5, 30};
   const std::vector<float64> k_MaxVector{20, 70, 55};
 
@@ -894,6 +898,8 @@ TEST_CASE("SimplnxCore::CropImageGeometryFilter: Crop XY Physical Bounds", "[Sim
 
 TEST_CASE("SimplnxCore::CropImageGeometryFilter: Crop XZ Physical Bounds", "[SimplnxCore][CropImageGeometryFilter]")
 {
+  UnitTest::LoadPlugins();
+
   const std::vector<float64> k_MinVector{-5, 57.5, 30};
   const std::vector<float64> k_MaxVector{20, 70, 55};
 
@@ -978,6 +984,8 @@ TEST_CASE("SimplnxCore::CropImageGeometryFilter: Crop XZ Physical Bounds", "[Sim
 
 TEST_CASE("SimplnxCore::CropImageGeometryFilter: Crop YZ Physical Bounds", "[SimplnxCore][CropImageGeometryFilter]")
 {
+  UnitTest::LoadPlugins();
+
   const std::vector<float64> k_MinVector{-5, 57.5, 30};
   const std::vector<float64> k_MaxVector{20, 70, 55};
 
@@ -1058,6 +1066,8 @@ TEST_CASE("SimplnxCore::CropImageGeometryFilter: Crop YZ Physical Bounds", "[Sim
 
 TEST_CASE("SimplnxCore::CropImageGeometryFilter: Crop X Physical Bounds", "[SimplnxCore][CropImageGeometryFilter]")
 {
+  UnitTest::LoadPlugins();
+
   const std::vector<float64> k_MinVector{-5, 57.5, 30};
   const std::vector<float64> k_MaxVector{20, 70, 55};
 
@@ -1139,6 +1149,8 @@ TEST_CASE("SimplnxCore::CropImageGeometryFilter: Crop X Physical Bounds", "[Simp
 
 TEST_CASE("SimplnxCore::CropImageGeometryFilter: Crop Y Physical Bounds", "[SimplnxCore][CropImageGeometryFilter]")
 {
+  UnitTest::LoadPlugins();
+
   const std::vector<float64> k_MinVector{-5, 57.5, 30};
   const std::vector<float64> k_MaxVector{20, 70, 55};
 
@@ -1220,6 +1232,8 @@ TEST_CASE("SimplnxCore::CropImageGeometryFilter: Crop Y Physical Bounds", "[Simp
 
 TEST_CASE("SimplnxCore::CropImageGeometryFilter: Crop Z Physical Bounds", "[SimplnxCore][CropImageGeometryFilter]")
 {
+  UnitTest::LoadPlugins();
+
   const std::vector<float64> k_MinVector{-5, 57.5, 30};
   const std::vector<float64> k_MaxVector{20, 70, 55};
 

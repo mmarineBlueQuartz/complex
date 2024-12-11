@@ -29,7 +29,7 @@ const DataObjectNameParameter::ValueType k_RegionIdsName("Region Ids");
 
 TEST_CASE("SimplnxCore::CreateAMScanPathsFilter: Valid Filter Execution", "[SimplnxCore][CreateAMScanPathsFilter]")
 {
-  Application::GetOrCreateInstance()->loadPlugins(unit_test::k_BuildDir.view(), true);
+  UnitTest::LoadPlugins();
 
   const nx::core::UnitTest::TestFileSentinel testDataSentinel(nx::core::unit_test::k_CMakeExecutable, nx::core::unit_test::k_TestFilesDir, "scan_path_test_data.tar.gz", "scan_path_test_data");
   // Read the Small IN100 Data set

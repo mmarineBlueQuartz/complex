@@ -15,8 +15,9 @@ using namespace nx::core;
 
 TEST_CASE("SimplnxCore::AlignSectionsListFilter: Valid filter execution", "[SimplnxCore][AlignSectionsListFilter]")
 {
+  UnitTest::LoadPlugins();
+
   auto app = Application::GetOrCreateInstance();
-  app->loadPlugins(unit_test::k_BuildDir.view(), true);
   auto* filterList = app->getFilterList();
 
   const nx::core::UnitTest::TestFileSentinel testDataSentinel(nx::core::unit_test::k_CMakeExecutable, nx::core::unit_test::k_TestFilesDir, "6_6_align_sections_misorientation.tar.gz",
@@ -65,6 +66,8 @@ TEST_CASE("SimplnxCore::AlignSectionsListFilter: Valid filter execution", "[Simp
 
 TEST_CASE("SimplnxCore::AlignSectionsListFilter: Invalid filter execution", "[SimplnxCore][AlignSectionsListFilter]")
 {
+  UnitTest::LoadPlugins();
+
   const nx::core::UnitTest::TestFileSentinel testDataSentinel1(nx::core::unit_test::k_CMakeExecutable, nx::core::unit_test::k_TestFilesDir, "Small_IN100_dream3d_v2.tar.gz", "Small_IN100.dream3d");
 
   const nx::core::UnitTest::TestFileSentinel testDataSentinel(nx::core::unit_test::k_CMakeExecutable, nx::core::unit_test::k_TestFilesDir, "export_files_test.tar.gz", "export_files_test");

@@ -26,6 +26,8 @@ const DataPath k_VertexListPath = k_ReducedGeomPath.createChildPath("SharedVerte
 
 TEST_CASE("SimplnxCore::RemoveFlaggedVerticesFilter: Instantiate", "[SimplnxCore][RemoveFlaggedVerticesFilter]")
 {
+  UnitTest::LoadPlugins();
+
   RemoveFlaggedVerticesFilter filter;
   DataStructure dataStructure;
   Arguments args;
@@ -41,6 +43,8 @@ TEST_CASE("SimplnxCore::RemoveFlaggedVerticesFilter: Instantiate", "[SimplnxCore
 
 TEST_CASE("SimplnxCore::RemoveFlaggedVerticesFilter: From Scratch", "[SimplnxCore][RemoveFlaggedVerticesFilter]")
 {
+  UnitTest::LoadPlugins();
+
   RemoveFlaggedVerticesFilter filter;
   DataStructure dataStructure;
   Arguments args;
@@ -127,6 +131,8 @@ TEST_CASE("SimplnxCore::RemoveFlaggedVerticesFilter: From Scratch", "[SimplnxCor
 
 TEST_CASE("SimplnxCore::RemoveFlaggedVerticesFilter: Test Algorithm", "[SimplnxCore][RemoveFlaggedVerticesFilter]")
 {
+  UnitTest::LoadPlugins();
+
   const UnitTest::TestFileSentinel testDataSentinel(unit_test::k_CMakeExecutable, unit_test::k_TestFilesDir, "remove_flagged_elements_data.tar.gz", "remove_flagged_elements_data");
 
   // Load DataStructure containing the base geometry and an exemplar cleaned geometry

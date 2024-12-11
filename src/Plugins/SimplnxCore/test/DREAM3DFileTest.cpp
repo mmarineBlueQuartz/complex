@@ -272,9 +272,7 @@ DREAM3D::FileData CreateFileData()
 
 TEST_CASE("DREAM3DFileTest:DREAM3D File IO Test")
 {
-  auto app = Application::GetOrCreateInstance();
-  fs::path pluginPath = nx::core::unit_test::k_BuildDir.str();
-  app->loadPlugins(pluginPath, false);
+  UnitTest::LoadPlugins();
 
   std::lock_guard<std::mutex> lock(m_DataMutex);
   // Write .dream3d file
@@ -312,9 +310,7 @@ TEST_CASE("DREAM3DFileTest:DREAM3D File IO Test")
 
 TEST_CASE("DREAM3DFileTest:Import/Export DREAM3D Filter Test")
 {
-  auto app = Application::GetOrCreateInstance();
-  fs::path pluginPath = nx::core::unit_test::k_BuildDir.str();
-  app->loadPlugins(pluginPath, false);
+  UnitTest::LoadPlugins();
 
   std::lock_guard<std::mutex> lock(m_DataMutex);
 
@@ -347,9 +343,7 @@ TEST_CASE("DREAM3DFileTest:Import/Export DREAM3D Filter Test")
 
 TEST_CASE("DREAM3DFileTest:Import/Export Multi-DREAM3D Filter Test")
 {
-  auto app = Application::GetOrCreateInstance();
-  fs::path pluginPath = nx::core::unit_test::k_BuildDir.str();
-  app->loadPlugins(pluginPath, false);
+  UnitTest::LoadPlugins();
 
   std::lock_guard<std::mutex> lock(m_DataMutex);
 
@@ -366,6 +360,8 @@ TEST_CASE("DREAM3DFileTest:Import/Export Multi-DREAM3D Filter Test")
 
 TEST_CASE("DREAM3DFileTest: Existing Data Objects Test")
 {
+  UnitTest::LoadPlugins();
+
   DataStructure ds;
   {
     CreateImageGeometryFilter filter;

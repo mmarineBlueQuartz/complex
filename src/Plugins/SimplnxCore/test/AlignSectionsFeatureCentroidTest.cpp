@@ -28,7 +28,7 @@ TEST_CASE("SimplnxCore::AlignSectionsFeatureCentroidFilter", "[Reconstruction][A
   // would be responsible to create.
   const uint64_t millisFromEpoch = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 
-  Application::GetOrCreateInstance()->loadPlugins(unit_test::k_BuildDir.view(), true);
+  UnitTest::LoadPlugins();
   auto* filterList = Application::Instance()->getFilterList();
 
   const DataPath k_ExemplarShiftsPath = k_ExemplarDataContainerPath.createChildPath("Exemplar Shifts");
