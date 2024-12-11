@@ -61,6 +61,7 @@ set(${PLUGIN_NAME}UnitTest_SRCS
   CreateGeometryTest.cpp
   CreateImageGeometryTest.cpp
   CreatePythonSkeletonTest.cpp
+  CropEdgeGeometryTest.cpp
   CropImageGeometryTest.cpp
   CropVertexGeometryTest.cpp
   DBSCANTest.cpp

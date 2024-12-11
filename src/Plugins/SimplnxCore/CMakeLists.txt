@@ -59,6 +59,7 @@ set(FilterList
   CreateGeometryFilter
   CreateImageGeometryFilter
   CreatePythonSkeletonFilter
+  CropEdgeGeometryFilter
   CropImageGeometryFilter
   CropVertexGeometryFilter
   DBSCANFilter
@@ -176,6 +177,7 @@ set(AlgorithmList
   ConcatenateDataArrays
   ConvertColorToGrayScale
   ConvertData
+  CropEdgeGeometry
   CreatePythonSkeleton
   DBSCAN
   ErodeDilateBadData
