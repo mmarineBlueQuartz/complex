@@ -73,24 +73,27 @@ if(NOT ITKIMAGEPROCESSING_LEAN_AND_MEAN)
     # ITKLog10ImageTest.cpp
     # ITKLogImageTest.cpp
     ITKMaskImageTest.cpp
-
-    # ITKMinMaxCurvatureFlowImageTest.cpp
-    # ITKNormalizeImageTest.cpp
-    # ITKNotImageTest.cpp
-    # ITKOtsuMultipleThresholdsImageTest.cpp
-    # ITKRegionalMaximaImageTest.cpp
-    # ITKRegionalMinimaImageTest.cpp
-    # ITKRelabelComponentImageTest.cpp
-    # ITKSigmoidImageTest.cpp
-    # ITKSignedDanielssonDistanceMapImageTest.cpp
-    # ITKSinImageTest.cpp
-    # ITKSqrtImageTest.cpp
-    # ITKSquareImageTest.cpp
-    # ITKTanImageTest.cpp
-    # ITKThresholdImageTest.cpp
-    # ITKThresholdMaximumConnectedComponentsImageTest.cpp
-    # ITKWhiteTopHatImageTest.cpp
-    # ITKZeroCrossingImageTest.cpp
+    ITKMaximumProjectionImageTest.cpp
+    ITKMeanProjectionImageTest.cpp
+    ITKMedianProjectionImageTest.cpp
+    ITKMinimumProjectionImageTest.cpp
+    ITKMinMaxCurvatureFlowImageTest.cpp
+    ITKNormalizeImageTest.cpp
+    ITKNotImageTest.cpp
+    ITKOtsuMultipleThresholdsImageTest.cpp
+    ITKRegionalMaximaImageTest.cpp
+    ITKRegionalMinimaImageTest.cpp
+    ITKRelabelComponentImageTest.cpp
+    ITKSigmoidImageTest.cpp
+    ITKSignedDanielssonDistanceMapImageTest.cpp
+    ITKSinImageTest.cpp
+    ITKSqrtImageTest.cpp
+    ITKSquareImageTest.cpp
+    ITKTanImageTest.cpp
+    ITKThresholdImageTest.cpp
+    ITKThresholdMaximumConnectedComponentsImageTest.cpp
+    ITKWhiteTopHatImageTest.cpp
+    ITKZeroCrossingImageTest.cpp
   )
 endif()
 
