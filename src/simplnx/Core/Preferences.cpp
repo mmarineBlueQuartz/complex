@@ -120,6 +120,7 @@ void Preferences::clear()
 {
   m_Values.clear();
   m_Values[k_Plugin_Key] = nlohmann::json::object();
+  updateMemoryDefaults();
 }
 
 bool Preferences::contains(const std::string& name) const
@@ -171,6 +172,12 @@ nlohmann::json Preferences::defaultValue(const std::string& name) const
 void Preferences::setValue(const std::string& name, const nlohmann::json& value)
 {
   m_Values[name] = value;
+
+  // Check if out-of-core values need to be updated.
+  if(name == k_LargeDataSize_Key)
+  {
+    updateMemoryDefaults();
+  }
 }
 
 nlohmann::json Preferences::pluginValue(const std::string& pluginName, const std::string& valueName) const
@@ -233,6 +240,7 @@ Result<> Preferences::loadFromFile(const std::filesystem::path& filepath)
   m_Values = nlohmann::json::parse(fileStream);
 
   checkUseOoc();
+  updateMemoryDefaults();
   return {};
 }
 
