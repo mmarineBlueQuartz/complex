@@ -1906,7 +1906,6 @@ void RunParallelMapRectToImage(IArray& destArray, ParallelRunnerT&& runner, Args
 
 } // namespace CopyFromArray
 
-
 namespace TransferGeometryElementData
 {
 /**
