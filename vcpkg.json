@@ -32,7 +32,8 @@
       "name": "nod"
     },
     {
-      "name": "reproc"
+      "name": "reproc",
+      "version>=": "14.2.5"
     },
     {
       "name": "ghc-filesystem"
@@ -42,6 +43,9 @@
     },
     {
       "name": "xtensor-io"
+    },
+    {
+      "name": "blosc"
     }
   ],
   "features": {
