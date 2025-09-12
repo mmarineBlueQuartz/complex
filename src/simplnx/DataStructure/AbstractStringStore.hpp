@@ -334,8 +334,10 @@ public:
   virtual const_reference operator[](usize index) const = 0;
   virtual const_reference at(usize index) const = 0;
 
-  virtual const_reference getValue(usize index) const = 0;
+  virtual value_type getValue(usize index) const = 0;
   virtual void setValue(usize index, const value_type& value) = 0;
+
+  virtual void fill(const value_type& value) = 0;
 
   iterator begin();
   iterator end();

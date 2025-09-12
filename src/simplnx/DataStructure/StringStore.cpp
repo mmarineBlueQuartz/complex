@@ -39,14 +39,19 @@ StringStore::const_reference StringStore::at(usize index) const
   return getValue(index);
 }
 
-StringStore::const_reference StringStore::getValue(usize index) const
+StringStore::value_type StringStore::getValue(usize index) const
 {
   return m_Data.at(index);
 }
 
 void StringStore::setValue(usize index, const value_type& value)
 {
-  m_Data.at(index) = value;
+  m_Data[index] = value;
+}
+
+void StringStore::fill(const value_type& value)
+{
+  std::fill(begin(), end(), value);
 }
 
 void StringStore::resize(usize count)

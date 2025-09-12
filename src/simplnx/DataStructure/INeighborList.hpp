@@ -1,6 +1,7 @@
 #pragma once
 
 #include "simplnx/DataStructure/IArray.hpp"
+#include "simplnx/DataStructure/IListStore.hpp"
 
 namespace nx::core
 {
@@ -77,6 +78,9 @@ public:
   {
     return Type::INeighborList;
   }
+
+  virtual IListStore& getAbstractStoreRef() = 0;
+  virtual const IListStore& getAbstractStoreRef() const = 0;
 
 protected:
   /**

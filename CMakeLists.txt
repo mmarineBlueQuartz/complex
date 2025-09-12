@@ -534,6 +534,7 @@ set(SIMPLNX_HDRS
   ${SIMPLNX_SOURCE_DIR}/Utilities/ArrayCreationUtilities.hpp
   ${SIMPLNX_SOURCE_DIR}/Utilities/AlignSections.hpp
   ${SIMPLNX_SOURCE_DIR}/Utilities/ArrayThreshold.hpp
+  ${SIMPLNX_SOURCE_DIR}/Utilities/CropGeometryUtilities.hpp
   ${SIMPLNX_SOURCE_DIR}/Utilities/DataArrayUtilities.hpp
   ${SIMPLNX_SOURCE_DIR}/Utilities/DataGroupUtilities.hpp
   ${SIMPLNX_SOURCE_DIR}/Utilities/DataObjectUtilities.hpp
@@ -741,6 +742,7 @@ set(SIMPLNX_SRCS
   ${SIMPLNX_SOURCE_DIR}/Utilities/ArrayCreationUtilities.cpp
   ${SIMPLNX_SOURCE_DIR}/Utilities/ArrayThreshold.cpp
   ${SIMPLNX_SOURCE_DIR}/Utilities/ClusteringUtilities.cpp
+  ${SIMPLNX_SOURCE_DIR}/Utilities/CropGeometryUtilities.cpp
   ${SIMPLNX_SOURCE_DIR}/Utilities/FilePathGenerator.cpp
   ${SIMPLNX_SOURCE_DIR}/Utilities/FilterUtilities.cpp
   ${SIMPLNX_SOURCE_DIR}/Utilities/FileUtilities.cpp

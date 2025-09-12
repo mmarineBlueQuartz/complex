@@ -207,6 +207,11 @@ public:
     throw std::runtime_error("EmptyListStore cannot write to HDF5");
   }
 
+  void copy(const AbstractListStore<T>& rhs) override
+  {
+    throw std::runtime_error("EmptyListStore cannot copy from another list store");
+  }
+
 private:
   usize m_NumTuples = 0;
 };

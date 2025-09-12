@@ -24,8 +24,10 @@ public:
   const_reference operator[](usize index) const override;
   const_reference at(usize index) const override;
 
-  const_reference getValue(usize index) const override;
+  value_type getValue(usize index) const override;
   void setValue(usize index, const value_type& value) override;
+
+  void fill(const value_type& value) override;
 
   AbstractStringStore& operator=(const std::vector<std::string>& values) override;
 

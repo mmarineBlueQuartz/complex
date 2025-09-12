@@ -386,6 +386,21 @@ public:
   std::shared_ptr<store_type> getStore() const;
 
   /**
+   * @brief Returns a shared_ptr to the underlying list store.
+   * @return std::shared_ptr<store_type>
+   */
+  store_type& getStoreRef();
+
+  /**
+   * @brief Returns a shared_ptr to the underlying list store.
+   * @return std::shared_ptr<store_type>
+   */
+  const store_type& getStoreRef() const;
+
+  IListStore& getAbstractStoreRef() override;
+  const IListStore& getAbstractStoreRef() const override;
+
+  /**
    * @brief Replaces the AbstractListStore used to store values.
    * @param store
    */

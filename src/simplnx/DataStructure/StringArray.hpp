@@ -124,6 +124,9 @@ public:
    */
   void resizeTuples(const std::vector<usize>& tupleShape) override;
 
+  store_type& getStoreRef();
+  const store_type& getStoreRef() const;
+
   void setStore(const std::shared_ptr<AbstractStringStore>& newStore);
 
 protected:

@@ -234,6 +234,15 @@ void StringArray::swapTuples(usize index0, usize index1)
   (*m_Strings)[index1] = value;
 }
 
+StringArray::store_type& StringArray::getStoreRef()
+{
+  return *m_Strings.get();
+}
+const StringArray::store_type& StringArray::getStoreRef() const
+{
+  return *m_Strings.get();
+}
+
 void StringArray::setStore(const std::shared_ptr<AbstractStringStore>& newStore)
 {
   m_Strings = newStore;

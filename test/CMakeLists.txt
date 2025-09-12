@@ -22,6 +22,7 @@ add_executable(simplnx_test
   simplnx_test_main.cpp
   ArgumentsTest.cpp
   BitTest.cpp
+  CropImageGeomData.cpp
   DataArrayTest.cpp
   DataPathTest.cpp
   DataStructObserver.hpp

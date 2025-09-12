@@ -649,6 +649,8 @@ public:
 
   virtual void setData(const std::vector<vector_type>& lists) = 0;
 
+  virtual void copy(const AbstractListStore& rhs) = 0;
+
 protected:
   AbstractListStore() = default;
 

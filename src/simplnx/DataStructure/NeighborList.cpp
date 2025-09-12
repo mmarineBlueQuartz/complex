@@ -436,9 +436,33 @@ void NeighborList<T>::resizeTuples(const std::vector<usize>& tupleShape)
 }
 
 template <typename T>
+IListStore& NeighborList<T>::getAbstractStoreRef()
+{
+  return *m_Store.get();
+}
+
+template <typename T>
+const IListStore& NeighborList<T>::getAbstractStoreRef() const
+{
+  return *m_Store.get();
+}
+
+template <typename T>
 std::shared_ptr<typename NeighborList<T>::store_type> NeighborList<T>::getStore() const
 {
   return m_Store;
+}
+
+template <typename T>
+NeighborList<T>::store_type& NeighborList<T>::getStoreRef()
+{
+  return *m_Store.get();
+}
+
+template <typename T>
+const NeighborList<T>::store_type& NeighborList<T>::getStoreRef() const
+{
+  return *m_Store.get();
 }
 
 template <typename T>

@@ -269,6 +269,16 @@ public:
     throw std::runtime_error("ListStore cannot write to HDF5");
   }
 
+  void copy(const AbstractListStore<T>& rhs) override
+  {
+    const usize count = rhs.size();
+    m_Array.resize(count);
+    for(usize i = 0; i < count; i++)
+    {
+      m_Array[i] = rhs.at(i);
+    }
+  }
+
 private:
   std::vector<std::vector<T>> m_Array;
 };

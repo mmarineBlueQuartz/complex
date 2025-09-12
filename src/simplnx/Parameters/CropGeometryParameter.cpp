@@ -13,9 +13,12 @@ constexpr StringLiteral k_Type_Key = "type";
 constexpr StringLiteral k_CropX_Key = "crop_x";
 constexpr StringLiteral k_CropY_Key = "crop_y";
 constexpr StringLiteral k_CropZ_Key = "crop_z";
-constexpr StringLiteral k_XBounds_Key = "bounds_x";
-constexpr StringLiteral k_YBounds_Key = "bounds_y";
-constexpr StringLiteral k_ZBounds_Key = "bounds_z";
+constexpr StringLiteral k_XBoundVoxels_Key = "voxels_x";
+constexpr StringLiteral k_YBoundVoxels_Key = "voxels_y";
+constexpr StringLiteral k_ZBoundVoxels_Key = "voxels_z";
+constexpr StringLiteral k_XBoundPhysical_Key = "physical_x";
+constexpr StringLiteral k_YBoundPhysical_Key = "physical_y";
+constexpr StringLiteral k_ZBoundPhysical_Key = "physical_z";
 
 constexpr int64 k_InvalidType = -63900;
 constexpr int64 k_InvalidBounds = -63901;
@@ -51,9 +54,12 @@ nlohmann::json CropGeometryParameter::toJsonImpl(const std::any& value) const
   json[k_CropX_Key] = cropValues.cropX;
   json[k_CropY_Key] = cropValues.cropY;
   json[k_CropZ_Key] = cropValues.cropZ;
-  json[k_XBounds_Key] = cropValues.xBounds;
-  json[k_YBounds_Key] = cropValues.yBounds;
-  json[k_ZBounds_Key] = cropValues.zBounds;
+  json[k_XBoundVoxels_Key] = cropValues.xBoundVoxels;
+  json[k_YBoundVoxels_Key] = cropValues.yBoundVoxels;
+  json[k_ZBoundVoxels_Key] = cropValues.zBoundVoxels;
+  json[k_XBoundPhysical_Key] = cropValues.xBoundPhysical;
+  json[k_YBoundPhysical_Key] = cropValues.yBoundPhysical;
+  json[k_ZBoundPhysical_Key] = cropValues.zBoundPhysical;
   return json;
 }
 
@@ -80,7 +86,7 @@ Result<std::any> CropGeometryParameter::fromJsonImpl(const nlohmann::json& json,
     auto cropXJson = json[k_CropX_Key];
     if(!cropXJson.is_boolean())
     {
-      return MakeErrorResult<std::any>(FilterParameter::Constants::k_Json_Value_Not_String, fmt::format("{}JSON value for key '{}' is not a boolean", prefix.view(), nameDiv + k_CropX_Key.str()));
+      return MakeErrorResult<std::any>(FilterParameter::Constants::k_Json_Value_Not_Value_Type, fmt::format("{}JSON value for key '{}' is not a boolean", prefix.view(), nameDiv + k_CropX_Key.str()));
     }
     value.cropX = cropXJson.get<bool>();
   }
@@ -89,7 +95,7 @@ Result<std::any> CropGeometryParameter::fromJsonImpl(const nlohmann::json& json,
     auto cropYJson = json[k_CropY_Key];
     if(!cropYJson.is_boolean())
     {
-      return MakeErrorResult<std::any>(FilterParameter::Constants::k_Json_Value_Not_String, fmt::format("{}JSON value for key '{}' is not a boolean", prefix.view(), nameDiv + k_CropY_Key.str()));
+      return MakeErrorResult<std::any>(FilterParameter::Constants::k_Json_Value_Not_Value_Type, fmt::format("{}JSON value for key '{}' is not a boolean", prefix.view(), nameDiv + k_CropY_Key.str()));
     }
     value.cropY = cropYJson.get<bool>();
   }
@@ -98,36 +104,68 @@ Result<std::any> CropGeometryParameter::fromJsonImpl(const nlohmann::json& json,
     auto cropZJson = json[k_CropZ_Key];
     if(!cropZJson.is_boolean())
     {
-      return MakeErrorResult<std::any>(FilterParameter::Constants::k_Json_Value_Not_String, fmt::format("{}JSON value for key '{}' is not a boolean", prefix.view(), nameDiv + k_CropZ_Key.str()));
+      return MakeErrorResult<std::any>(FilterParameter::Constants::k_Json_Value_Not_Value_Type, fmt::format("{}JSON value for key '{}' is not a boolean", prefix.view(), nameDiv + k_CropZ_Key.str()));
     }
     value.cropZ = cropZJson.get<bool>();
   }
 
   {
-    auto xBoundsJson = json[k_XBounds_Key];
+    auto xBoundsJson = json[k_XBoundVoxels_Key];
     if(!xBoundsJson.is_array())
     {
-      return MakeErrorResult<std::any>(FilterParameter::Constants::k_Json_Value_Not_String, fmt::format("{}JSON value for key '{}' is not an array", prefix.view(), nameDiv + k_XBounds_Key.str()));
+      return MakeErrorResult<std::any>(FilterParameter::Constants::k_Json_Value_Not_Value_Type,
+                                       fmt::format("{}JSON value for key '{}' is not an array", prefix.view(), nameDiv + k_XBoundVoxels_Key.str()));
     }
-    value.xBounds = xBoundsJson.get<std::array<int32, 2>>();
+    value.xBoundVoxels = xBoundsJson.get<std::array<int32, 2>>();
   }
 
   {
-    auto yBoundsJson = json[k_YBounds_Key];
+    auto yBoundsJson = json[k_YBoundVoxels_Key];
     if(!yBoundsJson.is_array())
     {
-      return MakeErrorResult<std::any>(FilterParameter::Constants::k_Json_Value_Not_String, fmt::format("{}JSON value for key '{}' is not an array", prefix.view(), nameDiv + k_YBounds_Key.str()));
+      return MakeErrorResult<std::any>(FilterParameter::Constants::k_Json_Value_Not_Value_Type,
+                                       fmt::format("{}JSON value for key '{}' is not an array", prefix.view(), nameDiv + k_YBoundVoxels_Key.str()));
     }
-    value.yBounds = yBoundsJson.get<std::array<int32, 2>>();
+    value.yBoundVoxels = yBoundsJson.get<std::array<int32, 2>>();
   }
 
   {
-    auto zBoundsJson = json[k_ZBounds_Key];
+    auto zBoundsJson = json[k_ZBoundVoxels_Key];
     if(!zBoundsJson.is_array())
     {
-      return MakeErrorResult<std::any>(FilterParameter::Constants::k_Json_Value_Not_String, fmt::format("{}JSON value for key '{}' is not an array", prefix.view(), nameDiv + k_ZBounds_Key.str()));
+      return MakeErrorResult<std::any>(FilterParameter::Constants::k_Json_Value_Not_Value_Type,
+                                       fmt::format("{}JSON value for key '{}' is not an array", prefix.view(), nameDiv + k_ZBoundVoxels_Key.str()));
     }
-    value.zBounds = zBoundsJson.get<std::array<int32, 2>>();
+    value.zBoundVoxels = zBoundsJson.get<std::array<int32, 2>>();
+  }
+
+  {
+    auto xBoundsJson = json[k_XBoundPhysical_Key];
+    if(!xBoundsJson.is_array())
+    {
+      return MakeErrorResult<std::any>(FilterParameter::Constants::k_Json_Value_Not_Value_Type, fmt::format("{}JSON value for key '{}' is not an array", prefix.view(), nameDiv + k_XBoundPhysical_Key.str()));
+    }
+    value.xBoundPhysical = xBoundsJson.get<std::array<float32, 2>>();
+  }
+
+  {
+    auto yBoundsJson = json[k_YBoundPhysical_Key];
+    if(!yBoundsJson.is_array())
+    {
+      return MakeErrorResult<std::any>(FilterParameter::Constants::k_Json_Value_Not_Value_Type,
+                                       fmt::format("{}JSON value for key '{}' is not an array", prefix.view(), nameDiv + k_YBoundPhysical_Key.str()));
+    }
+    value.yBoundPhysical = yBoundsJson.get<std::array<float32, 2>>();
+  }
+
+  {
+    auto zBoundsJson = json[k_ZBoundPhysical_Key];
+    if(!zBoundsJson.is_array())
+    {
+      return MakeErrorResult<std::any>(FilterParameter::Constants::k_Json_Value_Not_Value_Type,
+                                       fmt::format("{}JSON value for key '{}' is not an array", prefix.view(), nameDiv + k_ZBoundPhysical_Key.str()));
+    }
+    value.zBoundPhysical = zBoundsJson.get<std::array<float32, 2>>();
   }
 
   return {value};
@@ -158,17 +196,30 @@ Result<> CropGeometryParameter::validate(const std::any& value) const
     return MakeErrorResult(k_InvalidType, fmt::format("Invalid CropGeometry type: '{}'", cropTypeInt));
   }
 
-  if(cropValues.xBounds[0] > cropValues.xBounds[1])
+  if(cropValues.xBoundVoxels[0] >= cropValues.xBoundVoxels[1])
   {
-    return MakeErrorResult(k_InvalidBounds, "Invalid X bounds");
+    return MakeErrorResult(k_InvalidBounds, "Invalid X bounds [Voxels]");
   }
-  if(cropValues.yBounds[0] > cropValues.yBounds[1])
+  if(cropValues.yBoundVoxels[0] >= cropValues.yBoundVoxels[1])
   {
-    return MakeErrorResult(k_InvalidBounds, "Invalid Y bounds");
+    return MakeErrorResult(k_InvalidBounds, "Invalid Y bounds [Voxels]");
   }
-  if(cropValues.zBounds[0] > cropValues.zBounds[1])
+  if(cropValues.zBoundVoxels[0] >= cropValues.zBoundVoxels[1])
   {
-    return MakeErrorResult(k_InvalidBounds, "Invalid Z bounds");
+    return MakeErrorResult(k_InvalidBounds, "Invalid Z bounds [Voxels]");
+  }
+
+  if(cropValues.xBoundPhysical[0] >= cropValues.xBoundPhysical[1])
+  {
+    return MakeErrorResult(k_InvalidBounds, "Invalid X bounds [Physical]");
+  }
+  if(cropValues.yBoundPhysical[0] >= cropValues.yBoundPhysical[1])
+  {
+    return MakeErrorResult(k_InvalidBounds, "Invalid Y bounds [Physical]");
+  }
+  if(cropValues.zBoundPhysical[0] >= cropValues.zBoundPhysical[1])
+  {
+    return MakeErrorResult(k_InvalidBounds, "Invalid Z bounds [Physical]");
   }
 
   return {};
