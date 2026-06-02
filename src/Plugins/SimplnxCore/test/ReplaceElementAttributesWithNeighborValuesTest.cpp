@@ -26,113 +26,137 @@ namespace
 const DataPath k_ConfidenceIndexPath = k_CellAttributeMatrix.createChildPath(Constants::k_Confidence_Index);
 const std::string k_ExemplarDataContainer2("DataContainer");
 
+const DataPath k_LocalConfidence({k_ImageGeometry, k_ConfidenceIndex});
 constexpr StringLiteral k_Data = "Data";
-const DataPath k_DataPath({k_ImageGeometry, k_Data});
+const DataPath k_DataPath({k_ImageGeometry, k_CellData, k_Data});
 const ShapeType k_Dimensions = {2, 3, 1};
+
+bool CompareFloats(const float32 generated, const float32 expected)
+{
+  return std::abs(generated - expected) < 0.000012f;
+}
 } // namespace
 
 DataStructure CreateTestData()
 {
   DataStructure dataStructure;
 
-  auto* imageGeom = ImageGeom::Create(dataStructure, ::k_ImageGeometry);
+  auto* imageGeom = ImageGeom::Create(dataStructure, k_ImageGeometry);
   imageGeom->setDimensions(::k_Dimensions);
 
-  auto store = std::make_shared<DataStore<float32>>(k_Dimensions, ShapeType{1}, 0);
-  auto* dataArrayPtr = DataArray<float32>::Create(dataStructure, k_Data, store, imageGeom->getId());
-  auto& storeRef = *store.get();
+  auto* cellData = AttributeMatrix::Create(dataStructure, k_CellData, k_Dimensions, imageGeom->getId());
+  imageGeom->setCellData(cellData->getId());
 
-  for(usize i = 0; i < 3; i++)
+  // Confidence Index
   {
-    storeRef[i * 2 + 0] = 0.010f * i;
-    storeRef[i * 2 + 1] = 0.012f * i;
+    auto store = std::make_shared<DataStore<float32>>(k_Dimensions, ShapeType{1}, 0);
+    auto* dataArrayPtr = DataArray<float32>::Create(dataStructure, k_ConfidenceIndex, store, imageGeom->getId());
+    auto& storeRef = *store.get();
+
+    for(usize i = 0; i < 3; i++)
+    {
+      storeRef[i * 2 + 0] = 0.010f * i;
+      storeRef[i * 2 + 1] = 0.012f * i;
+    }
   }
-  storeRef[5] = 10.0;
+  // Cell Data
+  {
+    auto store = std::make_shared<DataStore<int32>>(k_Dimensions, ShapeType{1}, 0);
+    auto* dataArrayPtr = DataArray<int32>::Create(dataStructure, k_Data, store, cellData->getId());
+    auto& storeRef = *store.get();
+
+    for(usize i = 0; i < 3; i++)
+    {
+      storeRef[i * 2 + 0] = 10 * i;
+      storeRef[i * 2 + 1] = 12 * i;
+    }
+    storeRef[5] = 100;
+  }
 
   return dataStructure;
 }
 
 void CheckTest1Output(DataStructure& dataStructure)
 {
-  auto& dataStore = dataStructure.getDataRefAs<DataArray<float32>>(k_DataPath).getDataStoreRef();
-  REQUIRE(dataStore[0] == 0.0f);
-  REQUIRE(dataStore[1] == 0.0f);
-  REQUIRE(dataStore[2] == 0.010f);
-  REQUIRE(dataStore[3] == 0.012f);
-  REQUIRE(dataStore[4] == 0.020f);
-  REQUIRE(dataStore[5] == 10.0f);
+  auto& dataStore = dataStructure.getDataRefAs<DataArray<int32>>(k_DataPath).getDataStoreRef();
+  REQUIRE(dataStore[0] == 0);
+  REQUIRE(dataStore[1] == 0);
+  REQUIRE(dataStore[2] == 10);
+  REQUIRE(dataStore[3] == 12);
+  REQUIRE(dataStore[4] == 20);
+  REQUIRE(dataStore[5] == 100);
 }
 
 // Less than comparison
 void CheckTest2Output(DataStructure& dataStructure)
 {
-  auto& dataStore = dataStructure.getDataRefAs<DataArray<float32>>(k_DataPath).getDataStoreRef();
-  REQUIRE(dataStore[0] == 0.0f);
-  REQUIRE(dataStore[1] == 0.0f);
-  REQUIRE(dataStore[2] == 0.010f);
-  REQUIRE(dataStore[3] == 0.010f);
-  REQUIRE(dataStore[4] == 0.020f);
-  REQUIRE(dataStore[5] == 10.0f);
+  auto& dataStore = dataStructure.getDataRefAs<DataArray<int32>>(k_DataPath).getDataStoreRef();
+  REQUIRE(dataStore[0] == 10);
+  REQUIRE(dataStore[1] == 12);
+  REQUIRE(dataStore[2] == 10);
+  REQUIRE(dataStore[3] == 12);
+  REQUIRE(dataStore[4] == 20);
+  REQUIRE(dataStore[5] == 100);
 }
 
 // Greater than comparison
 void CheckTest3Output(DataStructure& dataStructure)
 {
-  auto& dataStore = dataStructure.getDataRefAs<DataArray<float32>>(k_DataPath).getDataStoreRef();
-  REQUIRE(dataStore[0] == 0.0f);
-  REQUIRE(dataStore[1] == 0.010f);
-  REQUIRE(dataStore[2] == 0.012f);
-  REQUIRE(dataStore[3] == 0.020f);
-  REQUIRE(dataStore[4] == 0.020f);
-  REQUIRE(dataStore[5] == 10.0f);
+  auto& dataStore = dataStructure.getDataRefAs<DataArray<int32>>(k_DataPath).getDataStoreRef();
+  REQUIRE(dataStore[0] == 0);
+  REQUIRE(dataStore[1] == 0);
+  REQUIRE(dataStore[2] == 0);
+  REQUIRE(dataStore[3] == 0);
+  REQUIRE(dataStore[4] == 20);
+  REQUIRE(dataStore[5] == 100);
 }
 
 // Loop Less Than: Loop
 void CheckTest4Output(DataStructure& dataStructure)
 {
-  auto& dataStore = dataStructure.getDataRefAs<DataArray<float32>>(k_DataPath).getDataStoreRef();
-  REQUIRE(dataStore[0] == 0.0f);
-  REQUIRE(dataStore[1] == 0.0f);
-  REQUIRE(dataStore[2] == 0.010f);
-  REQUIRE(dataStore[3] == 0.010f);
-  REQUIRE(dataStore[4] == 0.020f);
-  REQUIRE(dataStore[5] == 10.0f);
+  auto& dataStore = dataStructure.getDataRefAs<DataArray<int32>>(k_DataPath).getDataStoreRef();
+  REQUIRE(dataStore[0] == 0);
+  REQUIRE(dataStore[1] == 0);
+  REQUIRE(dataStore[2] == 10);
+  REQUIRE(dataStore[3] == 10);
+  REQUIRE(dataStore[4] == 20);
+  REQUIRE(dataStore[5] == 100);
 }
 
 // Loop Greater Than: Loop
 void CheckTest5Output(DataStructure& dataStructure)
 {
-  auto& dataStore = dataStructure.getDataRefAs<DataArray<float32>>(k_DataPath).getDataStoreRef();
-  REQUIRE(dataStore[0] == 0.0f);
-  REQUIRE(dataStore[1] == 0.0f);
-  REQUIRE(dataStore[2] == 0.012f);
-  REQUIRE(dataStore[3] == 0.012f);
-  REQUIRE(dataStore[4] == 0.024f);
-  REQUIRE(dataStore[5] == 10.0f);
+  auto& dataStore = dataStructure.getDataRefAs<DataArray<int32>>(k_DataPath).getDataStoreRef();
+  REQUIRE(dataStore[0] == 0);
+  REQUIRE(dataStore[1] == 0);
+  REQUIRE(dataStore[2] == 12);
+  REQUIRE(dataStore[3] == 12);
+  REQUIRE(dataStore[4] == 20);
+  REQUIRE(dataStore[5] == 100);
 }
 
 // Loop Less Than: Loop: Value 2
 void CheckTest6Output(DataStructure& dataStructure)
 {
-  auto& dataStore = dataStructure.getDataRefAs<DataArray<float32>>(k_DataPath).getDataStoreRef();
-  REQUIRE(dataStore[0] == 0.0f);
-  REQUIRE(dataStore[1] == 0.0f);
-  REQUIRE(dataStore[2] == 0.0f);
-  REQUIRE(dataStore[3] == 0.0f);
-  REQUIRE(dataStore[4] == 0.0f);
-  REQUIRE(dataStore[5] == 10.0f);
+  auto& dataStore = dataStructure.getDataRefAs<DataArray<int32>>(k_DataPath).getDataStoreRef();
+  REQUIRE(dataStore[0] == 0);
+  REQUIRE(dataStore[1] == 0);
+  REQUIRE(dataStore[2] == 0);
+  REQUIRE(dataStore[3] == 0);
+  REQUIRE(dataStore[4] == 0);
+  REQUIRE(dataStore[5] == 100);
 }
 
 // Loop Less Than: Loop: Value 2
 void CheckTest7Output(DataStructure& dataStructure)
 {
-  auto& dataStore = dataStructure.getDataRefAs<DataArray<float32>>(k_DataPath).getDataStoreRef();
-  REQUIRE(dataStore[0] == 0.024f);
-  REQUIRE(dataStore[1] == 0.024f);
-  REQUIRE(dataStore[2] == 0.024f);
-  REQUIRE(dataStore[3] == 0.024f);
-  REQUIRE(dataStore[4] == 0.024f);
-  REQUIRE(dataStore[5] == 10.0f);
+  auto& dataStore = dataStructure.getDataRefAs<DataArray<int32>>(k_DataPath).getDataStoreRef();
+  REQUIRE(dataStore[0] == 24);
+  REQUIRE(dataStore[1] == 24);
+  REQUIRE(dataStore[2] == 24);
+  REQUIRE(dataStore[3] == 24);
+  REQUIRE(dataStore[4] == 24);
+  REQUIRE(dataStore[5] == 100);
 }
 
 void RunFilter(DataStructure& dataStructure, uint64 comparisonType, float32 minConfidence, bool loop)
@@ -146,7 +170,7 @@ void RunFilter(DataStructure& dataStructure, uint64 comparisonType, float32 minC
     args.insertOrAssign(ReplaceElementAttributesWithNeighborValuesFilter::k_MinConfidence_Key, std::make_any<float32>(minConfidence));
     args.insertOrAssign(ReplaceElementAttributesWithNeighborValuesFilter::k_SelectedComparison_Key, std::make_any<ChoicesParameter::ValueType>(comparisonType));
     args.insertOrAssign(ReplaceElementAttributesWithNeighborValuesFilter::k_Loop_Key, std::make_any<bool>(loop));
-    args.insertOrAssign(ReplaceElementAttributesWithNeighborValuesFilter::k_ComparisonDataPath, std::make_any<DataPath>(k_DataPath));
+    args.insertOrAssign(ReplaceElementAttributesWithNeighborValuesFilter::k_ComparisonDataPath, std::make_any<DataPath>(k_LocalConfidence));
     args.insertOrAssign(ReplaceElementAttributesWithNeighborValuesFilter::k_SelectedImageGeometryPath_Key, std::make_any<DataPath>(DataPath({k_ImageGeometry})));
 
     // Preflight the filter and check result
