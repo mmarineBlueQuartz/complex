@@ -83,11 +83,20 @@ struct ExecuteTemplate
 {
   template <typename T>
   void CompareValues(std::shared_ptr<IComparisonFunctor<T>>& comparator, const AbstractDataStore<T>& inputArray, int64 neighbor, float thresholdValue, float32& best,
-                     std::vector<int64_t>& bestNeighbor, size_t i) const
+                     std::vector<int64>& bestNeighbor, usize i) const
   {
-    if(comparator->compare1(inputArray[neighbor], thresholdValue) && comparator->compare2(inputArray[neighbor], best))
+    const T inputValue = inputArray[neighbor];
+
+    // If the neighbor has the current best value, return.
+    // If best neighbor is alreay set to this neighbor, return.
+    if(static_cast<float32>(inputValue) == best || bestNeighbor[i] == neighbor)
     {
-      best = inputArray[neighbor];
+      return;
+    }
+
+    if(comparator->compare1(inputValue, thresholdValue) && comparator->compare2(inputValue, best))
+    {
+      best = inputValue;
       bestNeighbor[i] = neighbor;
     }
   }
@@ -99,8 +108,7 @@ struct ExecuteTemplate
    */
   template <typename T>
   usize findBestNeighbors(const std::array<int64, 3>& dims, const AbstractDataStore<T>& inputStore, std::shared_ptr<IComparisonFunctor<T>> comparator, float32 thresholdValue,
-                          const std::array<int64, 6>& neighborVoxelIndexOffsets, std::vector<int64_t>& bestNeighbor, int64& prog, int64 progIncrement,
-                          const IFilter::MessageHandler& messageHandler)
+                          const std::array<int64, 6>& neighborVoxelIndexOffsets, std::vector<int64>& bestNeighbor, int64& prog, int64 progIncrement, const IFilter::MessageHandler& messageHandler)
   {
     const usize totalPoints = inputStore.getNumberOfTuples();
     int64 neighbor = 0;
@@ -113,13 +121,13 @@ struct ExecuteTemplate
     // Iterate over the voxels and compare neighbors
     for(usize voxelIndex = 0; voxelIndex < totalPoints; voxelIndex++)
     {
-      if(comparator->compare(inputStore[voxelIndex], thresholdValue))
+      float32 best = inputStore[voxelIndex];
+      const float32 prevBest = inputStore[voxelIndex];
+      if(comparator->compare(best, thresholdValue))
       {
         column = voxelIndex % dims[0];
         row = (voxelIndex / dims[0]) % dims[1];
         plane = voxelIndex / (dims[0] * dims[1]);
-        count++;
-        float32 best = inputStore[voxelIndex];
 
         neighbor = static_cast<int64>(voxelIndex) + neighborVoxelIndexOffsets[0];
         if(plane != 0)
@@ -151,12 +159,20 @@ struct ExecuteTemplate
         {
           CompareValues<T>(comparator, inputStore, neighbor, thresholdValue, best, bestNeighbor, voxelIndex);
         }
+
+        // If best has not been changed, do not count towards total count
+        if(std::abs(best - prevBest) > std::numeric_limits<float32>::epsilon())
+        {
+          count++;
+        }
       }
+
+      // Send progress message
       if(voxelIndex > prog)
       {
         int64 progressInt = static_cast<int64>(((float)voxelIndex / totalPoints) * 100.0f);
         const std::string progressMessage = fmt::format("Processing Loop({}) Progress: {}% Complete", count, progressInt);
-        messageHandler(IFilter::ProgressMessage{IFilter::Message::Type::Progress, progressMessage, static_cast<int32_t>(progressInt)});
+        messageHandler(IFilter::ProgressMessage{IFilter::Message::Type::Progress, progressMessage, static_cast<int32>(progressInt)});
         prog += progIncrement;
       }
     }
@@ -165,14 +181,13 @@ struct ExecuteTemplate
   }
 
   /**
-  * @brief 
-  */
+   * @brief
+   */
   void replaceAttributesWithNeighbor(const usize totalPoints, const std::vector<int64>& bestNeighbor, int64& prog, int64 count, const AttributeMatrix& attrMatrix,
                                      const IFilter::MessageHandler& messageHandler)
   {
     // For each voxel, copy tuple values from the best neighbor
     const int64 progIncrement = static_cast<int64>(totalPoints / 50);
-    //int64 prog = 1;
     int64 progressInt = 0;
     int64 neighbor;
 
@@ -183,7 +198,7 @@ struct ExecuteTemplate
       {
         progressInt = static_cast<int64>(((float)voxelIndex / totalPoints) * 100.0f);
         const std::string progressMessage = fmt::format("Transferring Loop({}) Progress: {}% Complete", count, progressInt);
-        messageHandler(IFilter::ProgressMessage{IFilter::Message::Type::Progress, progressMessage, static_cast<int32_t>(progressInt)});
+        messageHandler(IFilter::ProgressMessage{IFilter::Message::Type::Progress, progressMessage, static_cast<int32>(progressInt)});
         prog += progIncrement;
       }
 
@@ -216,7 +231,7 @@ struct ExecuteTemplate
     };
 
     std::array<int64, 6> neighborVoxelIndexOffsets = initializeFaceNeighborOffsets(dims);
-    std::vector<int64_t> bestNeighbor(totalPoints, -1);
+    std::vector<int64> bestNeighbor(totalPoints, -1);
 
     usize count = 0;
     bool keepGoing = true;

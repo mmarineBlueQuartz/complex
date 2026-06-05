@@ -115,10 +115,10 @@ void CheckTest3Output(DataStructure& dataStructure)
 void CheckTest4Output(DataStructure& dataStructure)
 {
   auto& dataStore = dataStructure.getDataRefAs<DataArray<int32>>(k_DataPath).getDataStoreRef();
-  REQUIRE(dataStore[0] == 0);
-  REQUIRE(dataStore[1] == 0);
+  REQUIRE(dataStore[0] == 10);
+  REQUIRE(dataStore[1] == 12);
   REQUIRE(dataStore[2] == 10);
-  REQUIRE(dataStore[3] == 10);
+  REQUIRE(dataStore[3] == 12);
   REQUIRE(dataStore[4] == 20);
   REQUIRE(dataStore[5] == 100);
 }
@@ -129,8 +129,8 @@ void CheckTest5Output(DataStructure& dataStructure)
   auto& dataStore = dataStructure.getDataRefAs<DataArray<int32>>(k_DataPath).getDataStoreRef();
   REQUIRE(dataStore[0] == 0);
   REQUIRE(dataStore[1] == 0);
-  REQUIRE(dataStore[2] == 12);
-  REQUIRE(dataStore[3] == 12);
+  REQUIRE(dataStore[2] == 0);
+  REQUIRE(dataStore[3] == 0);
   REQUIRE(dataStore[4] == 20);
   REQUIRE(dataStore[5] == 100);
 }
@@ -139,11 +139,11 @@ void CheckTest5Output(DataStructure& dataStructure)
 void CheckTest6Output(DataStructure& dataStructure)
 {
   auto& dataStore = dataStructure.getDataRefAs<DataArray<int32>>(k_DataPath).getDataStoreRef();
-  REQUIRE(dataStore[0] == 0);
-  REQUIRE(dataStore[1] == 0);
-  REQUIRE(dataStore[2] == 0);
-  REQUIRE(dataStore[3] == 0);
-  REQUIRE(dataStore[4] == 0);
+  REQUIRE(dataStore[0] == 10);
+  REQUIRE(dataStore[1] == 12);
+  REQUIRE(dataStore[2] == 10);
+  REQUIRE(dataStore[3] == 12);
+  REQUIRE(dataStore[4] == 20);
   REQUIRE(dataStore[5] == 100);
 }
 
