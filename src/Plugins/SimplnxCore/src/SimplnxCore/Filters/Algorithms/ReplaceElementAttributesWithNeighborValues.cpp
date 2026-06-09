@@ -82,18 +82,10 @@ public:
 struct ExecuteTemplate
 {
   template <typename T>
-  void CompareValues(std::shared_ptr<IComparisonFunctor<T>>& comparator, const AbstractDataStore<T>& inputArray, int64 neighbor, float thresholdValue, float32& best,
-                     std::vector<int64>& bestNeighbor, usize i) const
+  void CompareValues(std::shared_ptr<IComparisonFunctor<T>>& comparator, const AbstractDataStore<T>& inputArray, int64 neighbor, float thresholdValue, float32& best, std::vector<int64>& bestNeighbor,
+                     usize i) const
   {
     const T inputValue = inputArray[neighbor];
-
-    // If the neighbor has the current best value, return.
-    // If best neighbor is alreay set to this neighbor, return.
-    if(static_cast<float32>(inputValue) == best || bestNeighbor[i] == neighbor)
-    {
-      return;
-    }
-
     if(comparator->compare1(inputValue, thresholdValue) && comparator->compare2(inputValue, best))
     {
       best = inputValue;
@@ -183,13 +175,15 @@ struct ExecuteTemplate
   /**
    * @brief
    */
-  void replaceAttributesWithNeighbor(const usize totalPoints, const std::vector<int64>& bestNeighbor, int64& prog, int64 count, const AttributeMatrix& attrMatrix,
+  void replaceAttributesWithNeighbor(const usize totalPoints, const std::vector<int64>& bestNeighbor, int64& prog, int64 count, IDataArray& inputArray, const AttributeMatrix& attrMatrix,
                                      const IFilter::MessageHandler& messageHandler)
   {
     // For each voxel, copy tuple values from the best neighbor
     const int64 progIncrement = static_cast<int64>(totalPoints / 50);
     int64 progressInt = 0;
     int64 neighbor;
+
+    const auto inputId = inputArray.getId();
 
     for(int64 voxelIndex = 0; voxelIndex < totalPoints; voxelIndex++)
     {
@@ -206,8 +200,16 @@ struct ExecuteTemplate
       neighbor = bestNeighbor[voxelIndex];
       if(neighbor != -1)
       {
+        // Adjust the input array if it is not in the target attribute matrix
+        inputArray.copyTuple(neighbor, voxelIndex);
         for(const auto& [dataId, dataObject] : attrMatrix)
         {
+          // Is this ID already copied?
+          if(dataId == inputId)
+          {
+            continue;
+          }
+
           auto& dataArray = dynamic_cast<IDataArray&>(*dataObject);
           dataArray.copyTuple(neighbor, voxelIndex);
         }
@@ -219,7 +221,7 @@ struct ExecuteTemplate
   void operator()(const ImageGeom& imageGeom, IDataArray* inputIDataArray, int32 comparisonAlgorithm, float thresholdValue, bool loopUntilDone, const std::atomic_bool& shouldCancel,
                   const IFilter::MessageHandler& messageHandler)
   {
-    const auto& inputStore = inputIDataArray->template getIDataStoreRefAs<AbstractDataStore<T>>();
+    auto& inputStore = inputIDataArray->template getIDataStoreRefAs<AbstractDataStore<T>>();
 
     const usize totalPoints = inputStore.getNumberOfTuples();
 
@@ -248,6 +250,7 @@ struct ExecuteTemplate
     const AttributeMatrix& attrMatrix = *imageGeom.getCellData();
 
     // Loop until the algorithm stops finding changes to make
+    int64 prog = 1;
     while(keepGoing)
     {
       keepGoing = false;
@@ -257,7 +260,6 @@ struct ExecuteTemplate
       }
 
       auto progIncrement = static_cast<int64>(totalPoints / 50);
-      int64 prog = 1;
 
       count = findBestNeighbors<T>(dims, inputStore, comparator, thresholdValue, neighborVoxelIndexOffsets, bestNeighbor, prog, progIncrement, messageHandler);
 
@@ -267,7 +269,7 @@ struct ExecuteTemplate
         break;
       }
 
-      replaceAttributesWithNeighbor(totalPoints, bestNeighbor, prog, count, attrMatrix, messageHandler);
+      replaceAttributesWithNeighbor(totalPoints, bestNeighbor, prog, count, *inputIDataArray, attrMatrix, messageHandler);
 
       // Check if the algorithm should continue looping
       if(loopUntilDone && count > 0)
