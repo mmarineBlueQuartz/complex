@@ -163,7 +163,7 @@ void CheckTest1Output(DataStructure& dataStructure)
 void CheckTest2Output(DataStructure& dataStructure)
 {
   auto& storeRef = dataStructure.getDataRefAs<DataArray<int32>>(k_DataPath).getDataStoreRef();
-  // 
+  //
   REQUIRE(storeRef[0] == 1);
   REQUIRE(storeRef[1] == 3);
   REQUIRE(storeRef[2] == 2);
