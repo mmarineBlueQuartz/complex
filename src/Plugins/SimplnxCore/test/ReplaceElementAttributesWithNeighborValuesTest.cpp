@@ -29,7 +29,7 @@ const std::string k_ExemplarDataContainer2("DataContainer");
 const DataPath k_LocalConfidence({k_ImageGeometry, k_ConfidenceIndex});
 constexpr StringLiteral k_Data = "Data";
 const DataPath k_DataPath({k_ImageGeometry, k_CellData, k_Data});
-const ShapeType k_Dimensions = {2, 3, 1};
+const ShapeType k_Dimensions = {3, 3, 3};
 
 bool CompareFloats(const float32 generated, const float32 expected)
 {
@@ -53,11 +53,35 @@ DataStructure CreateTestData()
     auto* dataArrayPtr = DataArray<float32>::Create(dataStructure, k_ConfidenceIndex, store, imageGeom->getId());
     auto& storeRef = *store.get();
 
-    for(usize i = 0; i < 3; i++)
-    {
-      storeRef[i * 2 + 0] = 0.010f * i;
-      storeRef[i * 2 + 1] = 0.012f * i;
-    }
+    storeRef[0] = 0.1f;
+    storeRef[1] = 0.25f;
+    storeRef[2] = 0.1f;
+    storeRef[3] = 0.35f;
+    storeRef[4] = 0.6f;
+    storeRef[5] = 0.5f;
+    storeRef[6] = 0.1f;
+    storeRef[7] = 0.35f;
+    storeRef[8] = 0.1f;
+    //
+    storeRef[9] = 0.1f;
+    storeRef[10] = 0.35f;
+    storeRef[11] = 0.1f;
+    storeRef[12] = 0.5f;
+    storeRef[13] = 0.9f;
+    storeRef[14] = 0.25f;
+    storeRef[15] = 0.1f;
+    storeRef[16] = 0.4f;
+    storeRef[17] = 0.1f;
+    //
+    storeRef[18] = 0.1f;
+    storeRef[19] = 0.2f;
+    storeRef[20] = 0.1f;
+    storeRef[21] = 0.3f;
+    storeRef[22] = 0.5f;
+    storeRef[23] = 0.15f;
+    storeRef[24] = 0.1f;
+    storeRef[25] = 0.2f;
+    storeRef[26] = 0.1f;
   }
   // Cell Data
   {
@@ -65,98 +89,290 @@ DataStructure CreateTestData()
     auto* dataArrayPtr = DataArray<int32>::Create(dataStructure, k_Data, store, cellData->getId());
     auto& storeRef = *store.get();
 
-    for(usize i = 0; i < 3; i++)
-    {
-      storeRef[i * 2 + 0] = 10 * i;
-      storeRef[i * 2 + 1] = 12 * i;
-    }
-    storeRef[5] = 100;
+    storeRef[0] = 1;
+    storeRef[1] = 2;
+    storeRef[2] = 1;
+    storeRef[3] = 2;
+    storeRef[4] = 3;
+    storeRef[5] = 2;
+    storeRef[6] = 1;
+    storeRef[7] = 2;
+    storeRef[8] = 1;
+    //
+    storeRef[9] = 1;
+    storeRef[10] = 2;
+    storeRef[11] = 1;
+    storeRef[12] = 3;
+    storeRef[13] = 3;
+    storeRef[14] = 2;
+    storeRef[15] = 1;
+    storeRef[16] = 2;
+    storeRef[17] = 1;
+    //
+    storeRef[18] = 1;
+    storeRef[19] = 1;
+    storeRef[20] = 1;
+    storeRef[21] = 2;
+    storeRef[22] = 3;
+    storeRef[23] = 1;
+    storeRef[24] = 1;
+    storeRef[25] = 1;
+    storeRef[26] = 1;
   }
 
   return dataStructure;
 }
 
+// Values not changed
 void CheckTest1Output(DataStructure& dataStructure)
 {
   auto& dataStore = dataStructure.getDataRefAs<DataArray<int32>>(k_DataPath).getDataStoreRef();
-  REQUIRE(dataStore[0] == 0);
-  REQUIRE(dataStore[1] == 0);
-  REQUIRE(dataStore[2] == 10);
-  REQUIRE(dataStore[3] == 12);
-  REQUIRE(dataStore[4] == 20);
-  REQUIRE(dataStore[5] == 100);
+
+  REQUIRE(dataStore[0] == 1);
+  REQUIRE(dataStore[1] == 2);
+  REQUIRE(dataStore[2] == 1);
+  REQUIRE(dataStore[3] == 2);
+  REQUIRE(dataStore[4] == 3);
+  REQUIRE(dataStore[5] == 2);
+  REQUIRE(dataStore[6] == 1);
+  REQUIRE(dataStore[7] == 2);
+  REQUIRE(dataStore[8] == 1);
+  //
+  REQUIRE(dataStore[9] == 1);
+  REQUIRE(dataStore[10] == 2);
+  REQUIRE(dataStore[11] == 1);
+  REQUIRE(dataStore[12] == 3);
+  REQUIRE(dataStore[13] == 3);
+  REQUIRE(dataStore[14] == 2);
+  REQUIRE(dataStore[15] == 1);
+  REQUIRE(dataStore[16] == 2);
+  REQUIRE(dataStore[17] == 1);
+  //
+  REQUIRE(dataStore[18] == 1);
+  REQUIRE(dataStore[19] == 1);
+  REQUIRE(dataStore[20] == 1);
+  REQUIRE(dataStore[21] == 2);
+  REQUIRE(dataStore[22] == 3);
+  REQUIRE(dataStore[23] == 1);
+  REQUIRE(dataStore[24] == 1);
+  REQUIRE(dataStore[25] == 1);
+  REQUIRE(dataStore[26] == 1);
 }
 
 // Less than comparison
 void CheckTest2Output(DataStructure& dataStructure)
 {
-  auto& dataStore = dataStructure.getDataRefAs<DataArray<int32>>(k_DataPath).getDataStoreRef();
-  REQUIRE(dataStore[0] == 10);
-  REQUIRE(dataStore[1] == 12);
-  REQUIRE(dataStore[2] == 10);
-  REQUIRE(dataStore[3] == 12);
-  REQUIRE(dataStore[4] == 20);
-  REQUIRE(dataStore[5] == 100);
+  auto& storeRef = dataStructure.getDataRefAs<DataArray<int32>>(k_DataPath).getDataStoreRef();
+  // 
+  REQUIRE(storeRef[0] == 1);
+  REQUIRE(storeRef[1] == 3);
+  REQUIRE(storeRef[2] == 2);
+  REQUIRE(storeRef[3] == 3);
+  REQUIRE(storeRef[4] == 3);
+  REQUIRE(storeRef[5] == 2);
+  REQUIRE(storeRef[6] == 1);
+  REQUIRE(storeRef[7] == 3);
+  REQUIRE(storeRef[8] == 2);
+  //
+  REQUIRE(storeRef[9] == 3);
+  REQUIRE(storeRef[10] == 3);
+  REQUIRE(storeRef[11] == 1);
+  REQUIRE(storeRef[12] == 3);
+  REQUIRE(storeRef[13] == 3);
+  REQUIRE(storeRef[14] == 3);
+  REQUIRE(storeRef[15] == 3);
+  REQUIRE(storeRef[16] == 3);
+  REQUIRE(storeRef[17] == 1);
+  //
+  REQUIRE(storeRef[18] == 1);
+  REQUIRE(storeRef[19] == 3);
+  REQUIRE(storeRef[20] == 1);
+  REQUIRE(storeRef[21] == 3);
+  REQUIRE(storeRef[22] == 3);
+  REQUIRE(storeRef[23] == 3);
+  REQUIRE(storeRef[24] == 1);
+  REQUIRE(storeRef[25] == 3);
+  REQUIRE(storeRef[26] == 1);
 }
 
 // Greater than comparison
 void CheckTest3Output(DataStructure& dataStructure)
 {
-  auto& dataStore = dataStructure.getDataRefAs<DataArray<int32>>(k_DataPath).getDataStoreRef();
-  REQUIRE(dataStore[0] == 0);
-  REQUIRE(dataStore[1] == 0);
-  REQUIRE(dataStore[2] == 0);
-  REQUIRE(dataStore[3] == 0);
-  REQUIRE(dataStore[4] == 20);
-  REQUIRE(dataStore[5] == 100);
+  auto& storeRef = dataStructure.getDataRefAs<DataArray<int32>>(k_DataPath).getDataStoreRef();
+  //
+  REQUIRE(storeRef[0] == 1);
+  REQUIRE(storeRef[1] == 2);
+  REQUIRE(storeRef[2] == 1);
+  REQUIRE(storeRef[3] == 2);
+  REQUIRE(storeRef[4] == 2);
+  REQUIRE(storeRef[5] == 2);
+  REQUIRE(storeRef[6] == 1);
+  REQUIRE(storeRef[7] == 2);
+  REQUIRE(storeRef[8] == 1);
+  //
+  REQUIRE(storeRef[9] == 1);
+  REQUIRE(storeRef[10] == 2);
+  REQUIRE(storeRef[11] == 1);
+  REQUIRE(storeRef[12] == 3);
+  REQUIRE(storeRef[13] == 2);
+  REQUIRE(storeRef[14] == 2);
+  REQUIRE(storeRef[15] == 1);
+  REQUIRE(storeRef[16] == 2);
+  REQUIRE(storeRef[17] == 1);
+  //
+  REQUIRE(storeRef[18] == 1);
+  REQUIRE(storeRef[19] == 1);
+  REQUIRE(storeRef[20] == 1);
+  REQUIRE(storeRef[21] == 2);
+  REQUIRE(storeRef[22] == 3);
+  REQUIRE(storeRef[23] == 1);
+  REQUIRE(storeRef[24] == 1);
+  REQUIRE(storeRef[25] == 1);
+  REQUIRE(storeRef[26] == 1);
 }
 
 // Loop Less Than: Loop
 void CheckTest4Output(DataStructure& dataStructure)
 {
-  auto& dataStore = dataStructure.getDataRefAs<DataArray<int32>>(k_DataPath).getDataStoreRef();
-  REQUIRE(dataStore[0] == 10);
-  REQUIRE(dataStore[1] == 12);
-  REQUIRE(dataStore[2] == 10);
-  REQUIRE(dataStore[3] == 12);
-  REQUIRE(dataStore[4] == 20);
-  REQUIRE(dataStore[5] == 100);
+  auto& storeRef = dataStructure.getDataRefAs<DataArray<int32>>(k_DataPath).getDataStoreRef();
+  //
+  REQUIRE(storeRef[0] == 3);
+  REQUIRE(storeRef[1] == 3);
+  REQUIRE(storeRef[2] == 2);
+  REQUIRE(storeRef[3] == 3);
+  REQUIRE(storeRef[4] == 3);
+  REQUIRE(storeRef[5] == 2);
+  REQUIRE(storeRef[6] == 3);
+  REQUIRE(storeRef[7] == 3);
+  REQUIRE(storeRef[8] == 2);
+  //
+  REQUIRE(storeRef[9] == 3);
+  REQUIRE(storeRef[10] == 3);
+  REQUIRE(storeRef[11] == 3);
+  REQUIRE(storeRef[12] == 3);
+  REQUIRE(storeRef[13] == 3);
+  REQUIRE(storeRef[14] == 3);
+  REQUIRE(storeRef[15] == 3);
+  REQUIRE(storeRef[16] == 3);
+  REQUIRE(storeRef[17] == 3);
+  //
+  REQUIRE(storeRef[18] == 3);
+  REQUIRE(storeRef[19] == 3);
+  REQUIRE(storeRef[20] == 3);
+  REQUIRE(storeRef[21] == 3);
+  REQUIRE(storeRef[22] == 3);
+  REQUIRE(storeRef[23] == 3);
+  REQUIRE(storeRef[24] == 3);
+  REQUIRE(storeRef[25] == 3);
+  REQUIRE(storeRef[26] == 3);
 }
 
 // Loop Greater Than: Loop
 void CheckTest5Output(DataStructure& dataStructure)
 {
-  auto& dataStore = dataStructure.getDataRefAs<DataArray<int32>>(k_DataPath).getDataStoreRef();
-  REQUIRE(dataStore[0] == 0);
-  REQUIRE(dataStore[1] == 0);
-  REQUIRE(dataStore[2] == 0);
-  REQUIRE(dataStore[3] == 0);
-  REQUIRE(dataStore[4] == 20);
-  REQUIRE(dataStore[5] == 100);
+  auto& storeRef = dataStructure.getDataRefAs<DataArray<int32>>(k_DataPath).getDataStoreRef();
+  //
+  REQUIRE(storeRef[0] == 1);
+  REQUIRE(storeRef[1] == 2);
+  REQUIRE(storeRef[2] == 1);
+  REQUIRE(storeRef[3] == 2);
+  REQUIRE(storeRef[4] == 2);
+  REQUIRE(storeRef[5] == 2);
+  REQUIRE(storeRef[6] == 1);
+  REQUIRE(storeRef[7] == 2);
+  REQUIRE(storeRef[8] == 1);
+  //
+  REQUIRE(storeRef[9] == 1);
+  REQUIRE(storeRef[10] == 2);
+  REQUIRE(storeRef[11] == 1);
+  REQUIRE(storeRef[12] == 3);
+  REQUIRE(storeRef[13] == 2);
+  REQUIRE(storeRef[14] == 2);
+  REQUIRE(storeRef[15] == 1);
+  REQUIRE(storeRef[16] == 2);
+  REQUIRE(storeRef[17] == 1);
+  //
+  REQUIRE(storeRef[18] == 1);
+  REQUIRE(storeRef[19] == 1);
+  REQUIRE(storeRef[20] == 1);
+  REQUIRE(storeRef[21] == 2);
+  REQUIRE(storeRef[22] == 3);
+  REQUIRE(storeRef[23] == 1);
+  REQUIRE(storeRef[24] == 1);
+  REQUIRE(storeRef[25] == 1);
+  REQUIRE(storeRef[26] == 1);
 }
 
 // Loop Less Than: Loop: Value 2
 void CheckTest6Output(DataStructure& dataStructure)
 {
-  auto& dataStore = dataStructure.getDataRefAs<DataArray<int32>>(k_DataPath).getDataStoreRef();
-  REQUIRE(dataStore[0] == 10);
-  REQUIRE(dataStore[1] == 12);
-  REQUIRE(dataStore[2] == 10);
-  REQUIRE(dataStore[3] == 12);
-  REQUIRE(dataStore[4] == 20);
-  REQUIRE(dataStore[5] == 100);
+  auto& storeRef = dataStructure.getDataRefAs<DataArray<int32>>(k_DataPath).getDataStoreRef();
+  //
+  REQUIRE(storeRef[0] == 2);
+  REQUIRE(storeRef[1] == 3);
+  REQUIRE(storeRef[2] == 2);
+  REQUIRE(storeRef[3] == 2);
+  REQUIRE(storeRef[4] == 3);
+  REQUIRE(storeRef[5] == 2);
+  REQUIRE(storeRef[6] == 2);
+  REQUIRE(storeRef[7] == 2);
+  REQUIRE(storeRef[8] == 2);
+  //
+  REQUIRE(storeRef[9] == 3);
+  REQUIRE(storeRef[10] == 2);
+  REQUIRE(storeRef[11] == 2);
+  REQUIRE(storeRef[12] == 3);
+  REQUIRE(storeRef[13] == 3);
+  REQUIRE(storeRef[14] == 3);
+  REQUIRE(storeRef[15] == 3);
+  REQUIRE(storeRef[16] == 2);
+  REQUIRE(storeRef[17] == 2);
+  //
+  REQUIRE(storeRef[18] == 2);
+  REQUIRE(storeRef[19] == 3);
+  REQUIRE(storeRef[20] == 3);
+  REQUIRE(storeRef[21] == 2);
+  REQUIRE(storeRef[22] == 3);
+  REQUIRE(storeRef[23] == 3);
+  REQUIRE(storeRef[24] == 2);
+  REQUIRE(storeRef[25] == 3);
+  REQUIRE(storeRef[26] == 3);
 }
 
-// Loop Less Than: Loop: Value 2
+// Loop Greater Than: Loop
 void CheckTest7Output(DataStructure& dataStructure)
 {
-  auto& dataStore = dataStructure.getDataRefAs<DataArray<int32>>(k_DataPath).getDataStoreRef();
-  REQUIRE(dataStore[0] == 24);
-  REQUIRE(dataStore[1] == 24);
-  REQUIRE(dataStore[2] == 24);
-  REQUIRE(dataStore[3] == 24);
-  REQUIRE(dataStore[4] == 24);
-  REQUIRE(dataStore[5] == 100);
+  auto& storeRef = dataStructure.getDataRefAs<DataArray<int32>>(k_DataPath).getDataStoreRef();
+  //
+  REQUIRE(storeRef[0] == 1);
+  REQUIRE(storeRef[1] == 2);
+  REQUIRE(storeRef[2] == 1);
+  REQUIRE(storeRef[3] == 1);
+  REQUIRE(storeRef[4] == 2);
+  REQUIRE(storeRef[5] == 1);
+  REQUIRE(storeRef[6] == 1);
+  REQUIRE(storeRef[7] == 1);
+  REQUIRE(storeRef[8] == 1);
+  //
+  REQUIRE(storeRef[9] == 1);
+  REQUIRE(storeRef[10] == 1);
+  REQUIRE(storeRef[11] == 1);
+  REQUIRE(storeRef[12] == 1);
+  REQUIRE(storeRef[13] == 2);
+  REQUIRE(storeRef[14] == 2);
+  REQUIRE(storeRef[15] == 1);
+  REQUIRE(storeRef[16] == 1);
+  REQUIRE(storeRef[17] == 1);
+  //
+  REQUIRE(storeRef[18] == 1);
+  REQUIRE(storeRef[19] == 1);
+  REQUIRE(storeRef[20] == 1);
+  REQUIRE(storeRef[21] == 1);
+  REQUIRE(storeRef[22] == 1);
+  REQUIRE(storeRef[23] == 1);
+  REQUIRE(storeRef[24] == 1);
+  REQUIRE(storeRef[25] == 1);
+  REQUIRE(storeRef[26] == 1);
 }
 
 void RunFilter(DataStructure& dataStructure, uint64 comparisonType, float32 minConfidence, bool loop)
@@ -183,11 +399,13 @@ void RunFilter(DataStructure& dataStructure, uint64 comparisonType, float32 minC
   }
 }
 
-TEST_CASE("SimplnxCore::ReplaceElementAttributesWithNeighborValuesFilter: No Confidence", "[SimplnxCore][ReplaceElementAttributesWithNeighborValuesFilter]")
+TEST_CASE("SimplnxCore::ReplaceElementAttributesWithNeighborValuesFilter: No Confidence: Less Than", "[SimplnxCore][ReplaceElementAttributesWithNeighborValuesFilter]")
 {
+  // Require all values are outside of confidence bounds
+
   UnitTest::LoadPlugins();
 
-  const float32 confidence = 0.9f;
+  const float32 confidence = 0.99f;
   const bool loop = false;
   const uint64 comparison = 0; // Less than
   DataStructure dataStructure = CreateTestData();
@@ -195,11 +413,28 @@ TEST_CASE("SimplnxCore::ReplaceElementAttributesWithNeighborValuesFilter: No Con
   CheckTest1Output(dataStructure);
 }
 
-TEST_CASE("SimplnxCore::ReplaceElementAttributesWithNeighborValuesFilter: No Loop: Less Than", "[SimplnxCore][ReplaceElementAttributesWithNeighborValuesFilter]")
+TEST_CASE("SimplnxCore::ReplaceElementAttributesWithNeighborValuesFilter: No Confidence: Greater Than", "[SimplnxCore][ReplaceElementAttributesWithNeighborValuesFilter]")
 {
+  // Require all values are outside of confidence bounds
+
   UnitTest::LoadPlugins();
 
-  const float32 confidence = 0.005f;
+  const float32 confidence = 0.001f;
+  const bool loop = false;
+  const uint64 comparison = 1; // Greater than
+  DataStructure dataStructure = CreateTestData();
+  RunFilter(dataStructure, comparison, confidence, loop);
+  CheckTest1Output(dataStructure);
+}
+
+TEST_CASE("SimplnxCore::ReplaceElementAttributesWithNeighborValuesFilter: No Loop: Less Than", "[SimplnxCore][ReplaceElementAttributesWithNeighborValuesFilter]")
+{
+  // Operate on values greater than confidence
+  // Sort for smaller values
+
+  UnitTest::LoadPlugins();
+
+  const float32 confidence = 0.5f;
   const bool loop = false;
   const uint64 comparison = 0;
   DataStructure dataStructure = CreateTestData();
@@ -209,9 +444,12 @@ TEST_CASE("SimplnxCore::ReplaceElementAttributesWithNeighborValuesFilter: No Loo
 
 TEST_CASE("SimplnxCore::ReplaceElementAttributesWithNeighborValuesFilter: No Loop: Greater Than", "[SimplnxCore][ReplaceElementAttributesWithNeighborValuesFilter]")
 {
+  // Operate on values less than confidence
+  // Sort for larger values
+
   UnitTest::LoadPlugins();
 
-  const float32 confidence = 0.005f;
+  const float32 confidence = 0.5f;
   const bool loop = false;
   const uint64 comparison = 1; // Greater than
   DataStructure dataStructure = CreateTestData();
@@ -221,9 +459,12 @@ TEST_CASE("SimplnxCore::ReplaceElementAttributesWithNeighborValuesFilter: No Loo
 
 TEST_CASE("SimplnxCore::ReplaceElementAttributesWithNeighborValuesFilter: Loop: Less Than", "[SimplnxCore][ReplaceElementAttributesWithNeighborValuesFilter]")
 {
+  // Operate on values greater than confidence
+  // Sort for smaller values
+
   UnitTest::LoadPlugins();
 
-  const float32 confidence = 0.005f;
+  const float32 confidence = 0.5f;
   const bool loop = true;
   const uint64 comparison = 0;
   DataStructure dataStructure = CreateTestData();
@@ -233,9 +474,12 @@ TEST_CASE("SimplnxCore::ReplaceElementAttributesWithNeighborValuesFilter: Loop: 
 
 TEST_CASE("SimplnxCore::ReplaceElementAttributesWithNeighborValuesFilter: Loop: Greater Than", "[SimplnxCore][ReplaceElementAttributesWithNeighborValuesFilter]")
 {
+  // Operate on values less than confidence
+  // Sort for larger values
+
   UnitTest::LoadPlugins();
 
-  const float32 confidence = 0.005f;
+  const float32 confidence = 0.5f;
   const bool loop = true;
   const uint64 comparison = 1;
   DataStructure dataStructure = CreateTestData();
@@ -245,9 +489,12 @@ TEST_CASE("SimplnxCore::ReplaceElementAttributesWithNeighborValuesFilter: Loop: 
 
 TEST_CASE("SimplnxCore::ReplaceElementAttributesWithNeighborValuesFilter: Loop: Less Than v2", "[SimplnxCore][ReplaceElementAttributesWithNeighborValuesFilter]")
 {
+  // Operate on values greater than confidence
+  // Sort for smaller value
+
   UnitTest::LoadPlugins();
 
-  const float32 confidence = 0.01f;
+  const float32 confidence = 0.26f;
   const bool loop = true;
   const uint64 comparison = 0;
   DataStructure dataStructure = CreateTestData();
@@ -257,9 +504,12 @@ TEST_CASE("SimplnxCore::ReplaceElementAttributesWithNeighborValuesFilter: Loop: 
 
 TEST_CASE("SimplnxCore::ReplaceElementAttributesWithNeighborValuesFilter: Loop: Greater Than v2", "[SimplnxCore][ReplaceElementAttributesWithNeighborValuesFilter]")
 {
+  // Operate on values less than confidence
+  // Sort for larger value
+
   UnitTest::LoadPlugins();
 
-  const float32 confidence = 0.01f;
+  const float32 confidence = 0.26f;
   const bool loop = true;
   const uint64 comparison = 1;
   DataStructure dataStructure = CreateTestData();
